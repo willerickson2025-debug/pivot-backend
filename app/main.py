@@ -7,16 +7,11 @@ from app.core.config import get_settings
 
 settings = get_settings()
 
-app = FastAPI(
-    title="PIVOT",
-    description="NBA intelligence platform",
-    version="1.0.0",
-)
+app = FastAPI(title="PIVOT", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -25,12 +20,11 @@ app.include_router(router, prefix="/api/v1")
 
 @app.get("/")
 async def root():
-    # Serve your dashboard.html at the root so https://your-app.up.railway.app shows the full site
     dashboard_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "dashboard.html")
     if os.path.exists(dashboard_path):
         return FileResponse(dashboard_path)
-    return {"status": "running", "message": "Dashboard not found"}
+    return {"status": "ok", "message": "Dashboard file not found - contact support"}
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "environment": settings.environment}
+    return {"status": "ok"}
