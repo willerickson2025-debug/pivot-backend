@@ -1,15 +1,4 @@
 .env
-.venv
-env/
-venv/
 __pycache__/
-*.py[cod]
-*$py.class
-data/raw/
-data/processed/
-data/live/
-*.csv
-*.json
-*.jsonl
-*.sqlite3
-.DS_Store
+venv/
+.venv/

@@ -116,6 +116,18 @@ async def player_analysis(
         raise HTTPException(status_code=502, detail=str(e))
 
 
+@router.get("/analysis/player/section")
+async def player_section_analysis(
+    name: str = Query(..., description="Player name"),
+    season: int = Query(2025, description="NBA season year"),
+    section: str = Query(..., description="Section: offense|defense|off_the_court|injuries|financials"),
+):
+    try:
+        return await analysis_service.analyze_player_section(name, season, section)
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=str(e))
+
+
 # ── Front Office ──────────────────────────────────────────────────────────────
 
 @router.post("/frontoffice/trade")

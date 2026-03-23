@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     environment: str = "development"
     port: int = 8000
     anthropic_api_key: str
-    claude_model: str = "claude-opus-4-5"
+    claude_model: str = "CLAUDE_MODEL=claude-sonnet-4-6"
     claude_max_tokens: int = 1024
     balldontlie_api_key: str
     balldontlie_base_url: str = "https://api.balldontlie.io/v1"

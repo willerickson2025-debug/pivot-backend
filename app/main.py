@@ -1,9 +1,21 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes import router
 from app.core.config import get_settings
+from app.core.http_client import GlobalHTTPClient
 
 settings = get_settings()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: Initialize the global HTTP client pool
+    await GlobalHTTPClient.start()
+    
+    yield  # The application runs while yielded
+    
+    # Shutdown: Close connections gracefully
+    await GlobalHTTPClient.stop()
 
 app = FastAPI(
     title="PIVOT",
@@ -11,6 +23,7 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
+    lifespan=lifespan,  # <-- Added the lifespan hook here
 )
 
 app.add_middleware(

@@ -70,7 +70,7 @@ nav.scrolled {
 }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
 
-/* ── HOME ── */
+/* HOME */
 .home-wrap {
   position: relative;
   width: 100vw;
@@ -95,6 +95,16 @@ nav.scrolled {
   background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
   z-index: 1;
 }
+.home-grid-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
 .home-center {
   position: relative;
   z-index: 2;
@@ -102,14 +112,13 @@ nav.scrolled {
 }
 .home-pivot-text {
   font-size: clamp(80px, 18vw, 220px);
-  letter-spacing: 24px;
+  letter-spacing: -4px;
   color: var(--white);
   font-weight: 700;
   line-height: 1;
-  text-indent: 24px;
 }
 
-/* ── MODAL ── */
+/* MODAL */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -141,10 +150,7 @@ nav.scrolled {
   background: var(--black);
   z-index: 10;
 }
-.modal-team {
-  display: flex;
-  flex-direction: column;
-}
+.modal-team { display: flex; flex-direction: column; }
 .modal-team.home { text-align: right; }
 .modal-team-city { font-size: 9px; letter-spacing: 3px; color: #555; margin-bottom: 4px; }
 .modal-team-name { font-size: 28px; letter-spacing: 2px; line-height: 1; }
@@ -212,7 +218,7 @@ nav.scrolled {
   animation: blink 1s infinite;
 }
 
-/* ── TICKER ── */
+/* TICKER */
 .ticker {
   position: fixed;
   bottom: 0; left: 0; right: 0;
@@ -238,13 +244,7 @@ nav.scrolled {
   white-space: nowrap;
   z-index: 2;
 }
-.ticker-track-wrap {
-  flex: 1;
-  overflow: hidden;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
+.ticker-track-wrap { flex: 1; overflow: hidden; height: 100%; display: flex; align-items: center; }
 .ticker-track {
   display: flex;
   align-items: center;
@@ -253,10 +253,7 @@ nav.scrolled {
   will-change: transform;
 }
 .ticker-track:hover { animation-play-state: paused; }
-@keyframes ticker-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
+@keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 .ticker-item {
   font-size: 11px;
   letter-spacing: 2px;
@@ -265,12 +262,9 @@ nav.scrolled {
   text-shadow: 0 0 8px rgba(0,255,65,0.4);
   white-space: nowrap;
 }
-.ticker-sep {
-  color: #1a1a1a;
-  font-size: 14px;
-  padding: 0 8px;
-}
+.ticker-sep { color: #1a1a1a; font-size: 14px; padding: 0 8px; }
 
+/* TOOLBAR */
 .toolbar {
   height: 60px;
   border-bottom: 2px solid var(--white);
@@ -321,7 +315,7 @@ nav.scrolled {
   border-left: 1px solid var(--border);
 }
 
-/* ── GAMES GRID ── */
+/* GAMES GRID */
 .g-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); }
 .g-card {
   border-right: 1px solid var(--border);
@@ -332,15 +326,6 @@ nav.scrolled {
   position: relative;
 }
 .g-card:hover { background: var(--grey); }
-.g-card.sel { background: var(--grey2); }
-.g-card.sel::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: var(--green);
-  box-shadow: 0 0 10px var(--green);
-}
 .g-time { font-size: 11px; letter-spacing: 3px; color: var(--green); margin-bottom: 24px; }
 .g-matchup { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; margin-bottom: 20px; }
 .g-team-a { text-align: left; }
@@ -348,98 +333,12 @@ nav.scrolled {
 .g-city { font-size: 9px; letter-spacing: 3px; color: #444; margin-bottom: 4px; }
 .g-name { font-size: 28px; letter-spacing: 1px; line-height: 1; }
 .g-abbr { font-size: 9px; letter-spacing: 3px; color: #555; margin-top: 4px; }
-.g-score { font-size: 34px; letter-spacing: 2px; color: var(--green); text-shadow: 0 0 10px rgba(0,255,65,.4); text-align: center; line-height:1; }
+.g-score { font-size: 34px; letter-spacing: 2px; color: var(--green); text-shadow: 0 0 10px rgba(0,255,65,.4); text-align: center; line-height: 1; }
 .g-vs { font-size: 12px; letter-spacing: 4px; color: #333; text-align: center; }
 .g-badge { display: inline-block; font-size: 9px; letter-spacing: 3px; padding: 4px 10px; border: 1px solid #333; color: #555; }
 .g-badge.live { border-color: var(--green); color: var(--green); animation: blink 1s infinite; }
 
-/* ── ANALYSIS ── */
-.a-layout { display: grid; grid-template-columns: 1fr 440px; min-height: calc(100vh - 52px - 52px); }
-.a-left { border-right: 2px solid var(--white); display: flex; flex-direction: column; }
-.a-output { flex: 1; padding: 40px; overflow-y: auto; }
-.a-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 300px; gap: 12px; }
-.a-empty-icon { font-size: 40px; color: #1a1a1a; }
-.a-empty-label { font-size: 9px; letter-spacing: 4px; color: #333; }
-.a-text { font-size: 15px; line-height: 2.1; letter-spacing: .5px; color: var(--white); white-space: pre-wrap; font-weight: 400; text-transform: none; }
-.a-footer { display: flex; border-top: 2px solid var(--white); }
-.a-meta { padding: 18px 28px; border-right: 1px solid var(--border); }
-.a-mk { font-size: 9px; letter-spacing: 4px; color: #444; margin-bottom: 5px; }
-.a-mv { font-size: 15px; letter-spacing: 2px; color: var(--green); }
-.a-right { background: var(--grey); display: flex; flex-direction: column; }
-.a-right-head { padding: 20px 28px; border-bottom: 1px solid var(--border); font-size: 11px; letter-spacing: 4px; color: #444; }
-.a-controls { padding: 28px; display: flex; flex-direction: column; gap: 14px; border-bottom: 1px solid var(--border); }
-.a-label { font-size: 9px; letter-spacing: 4px; color: #444; margin-bottom: 7px; }
-.a-date-input {
-  background: var(--black);
-  border: 1px solid var(--border);
-  color: var(--white);
-  font-size: 12px; letter-spacing: 2px; font-weight: 700;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
-  padding: 12px 16px; outline: none; width: 100%;
-  transition: border-color 0.1s;
-}
-.a-date-input:focus { border-color: var(--green); }
-.a-run {
-  background: var(--green);
-  border: none;
-  color: var(--black);
-  font-size: 12px; letter-spacing: 4px; font-weight: 700;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
-  padding: 16px; cursor: pointer; width: 100%;
-  transition: all 0.1s; margin-top: 4px;
-}
-.a-run:hover { background: var(--white); }
-.a-run:disabled { background: #222; color: #444; cursor: not-allowed; }
-.a-hint { padding: 28px; font-size: 11px; letter-spacing: 1.5px; color: #333; line-height: 2.2; font-weight: 400; text-transform: none; }
-
-/* ── PLAYERS ── */
-.p-layout { display: grid; grid-template-columns: 320px 1fr; min-height: calc(100vh - 52px - 52px); }
-.p-sidebar { border-right: 2px solid var(--white); display: flex; flex-direction: column; }
-.p-search { display: flex; border-bottom: 2px solid var(--white); }
-.p-field {
-  flex: 1;
-  background: var(--black);
-  border: none;
-  border-right: 1px solid var(--border);
-  color: var(--white);
-  font-size: 11px; letter-spacing: 2px; font-weight: 700;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
-  padding: 14px 16px; outline: none;
-}
-.p-field::placeholder { color: #333; }
-.p-go {
-  background: var(--black);
-  border: none;
-  color: var(--green);
-  font-size: 18px; padding: 0 20px; cursor: pointer;
-  transition: all 0.1s;
-}
-.p-go:hover { background: var(--green); color: var(--black); }
-.p-quick-label { font-size: 7px; letter-spacing: 4px; color: #444; padding: 12px 20px; border-bottom: 1px solid var(--border); background: var(--grey); }
-.p-quick {
-  padding: 13px 20px;
-  border-bottom: 1px solid var(--border);
-  font-size: 10px; letter-spacing: 3px; color: #555;
-  cursor: pointer; transition: all 0.1s;
-}
-.p-quick:hover { color: var(--white); background: var(--grey); }
-.p-detail { padding: 40px; overflow-y: auto; }
-.p-name { font-size: clamp(28px, 4vw, 64px); letter-spacing: 3px; line-height: 1; margin-bottom: 10px; }
-.p-meta { font-size: 9px; letter-spacing: 4px; color: var(--green); margin-bottom: 32px; }
-.p-stats { display: grid; grid-template-columns: repeat(3, 1fr); border: 2px solid var(--white); margin-bottom: 32px; }
-.p-stat { padding: 24px; border-right: 1px solid var(--border); text-align: center; }
-.p-stat:last-child { border-right: none; }
-.p-stat-v { font-size: 48px; letter-spacing: -2px; color: var(--green); text-shadow: 0 0 20px rgba(0,255,65,.3); line-height: 1; }
-.p-stat-k { font-size: 7px; letter-spacing: 4px; color: #444; margin-top: 4px; }
-.p-analysis { font-size: 13px; line-height: 2; letter-spacing: .5px; color: var(--white); white-space: pre-wrap; font-weight: 400; text-transform: none; }
-.p-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 40vh; gap: 12px; }
-.p-empty-icon { font-size: 40px; color: #1a1a1a; }
-.p-empty-label { font-size: 9px; letter-spacing: 4px; color: #333; }
-
-/* ── SHARED ── */
+/* SHARED */
 .loader { display: flex; align-items: center; gap: 14px; padding: 40px 48px; font-size: 11px; letter-spacing: 4px; color: #333; }
 .loader-bar { width: 48px; height: 2px; background: #1a1a1a; position: relative; overflow: hidden; }
 .loader-bar::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--green); animation: sweep 1s infinite; }
@@ -450,12 +349,23 @@ nav.scrolled {
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--black); }
 ::-webkit-scrollbar-thumb { background: #2a2a2a; }
+
+/* PDF PRINT */
+@media print {
+  nav, .ticker, .toolbar, .export-btn { display: none !important; }
+  body { background: white !important; color: black !important; }
+  * { color: black !important; border-color: #ccc !important; background: white !important; text-shadow: none !important; box-shadow: none !important; }
+  .home-wrap, .modal-backdrop { display: none !important; }
+}
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script type="text/babel">
-const API = 'http://localhost:8000/api/v1';
+const API = 'https://pivot-master.onrender.com/api/v1';
+
+function getYesterday() { const d = new Date(); d.setDate(d.getDate()-1); return d.toISOString().split('T')[0]; }
+function getTomorrow()  { const d = new Date(); d.setDate(d.getDate()+1); return d.toISOString().split('T')[0]; }
 
 function Loader({ label = 'LOADING' }) {
   return <div className="loader"><div className="loader-bar"/>{label}</div>;
@@ -468,18 +378,13 @@ function parseStatus(s) {
   if (l.includes('qtr') || l.includes('half') || l === 'in progress') return { label: 'LIVE', type: 'live' };
   try {
     const d = new Date(s);
-    if (!isNaN(d)) return {
-      label: d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }),
-      type: 'sched'
-    };
+    if (!isNaN(d)) return { label: d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }), type: 'sched' };
   } catch(e) {}
   return { label: s.substring(0, 18), type: 'sched' };
 }
 
-// TICKER
 function Ticker() {
   const [items, setItems] = React.useState([]);
-
   React.useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
     fetch(`${API}/nba/games?date=${today}`)
@@ -487,32 +392,20 @@ function Ticker() {
       .then(data => {
         if (!data?.games?.length) return;
         const gameItems = data.games.map(g => {
-          const time = (() => {
-            try {
-              const d = new Date(g.status);
-              return isNaN(d) ? g.status : d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
-            } catch { return g.status; }
-          })();
           const hasScore = g.home_team_score > 0 || g.visitor_team_score > 0;
-          return hasScore
-            ? `${g.visitor_team.abbreviation} ${g.visitor_team_score} — ${g.home_team_score} ${g.home_team.abbreviation}`
-            : `${g.visitor_team.abbreviation} @ ${g.home_team.abbreviation}  ${time}`;
+          if (hasScore) return `${g.visitor_team.abbreviation} ${g.visitor_team_score} — ${g.home_team_score} ${g.home_team.abbreviation}`;
+          try {
+            const d = new Date(g.status);
+            const t = isNaN(d) ? g.status : d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
+            return `${g.visitor_team.abbreviation} @ ${g.home_team.abbreviation}  ${t}`;
+          } catch { return `${g.visitor_team.abbreviation} @ ${g.home_team.abbreviation}`; }
         });
         setItems(gameItems);
-      })
-      .catch(() => {});
+      }).catch(() => {});
   }, []);
-
-  const fallback = [
-    'PIVOT — NBA INTELLIGENCE PLATFORM',
-    'TODAY\'S SLATE NOW LOADING',
-    'GAMES · ANALYSIS · PLAYERS',
-    'POWERED BY PIVOT',
-  ];
-
+  const fallback = ['PIVOT — NBA INTELLIGENCE PLATFORM', "TODAY'S SLATE NOW LOADING", 'GAMES · ANALYSIS · PLAYERS', 'POWERED BY PIVOT'];
   const display = items.length ? items : fallback;
   const doubled = [...display, ...display];
-
   return (
     <div className="ticker">
       <div className="ticker-label">NBA LIVE</div>
@@ -530,19 +423,12 @@ function Ticker() {
   );
 }
 
-// HOME
-function Home({ setTab }) {
+function Home() {
   return (
     <div className="home-wrap">
-      <video
-        className="home-video"
-        src="bg.mp4"
-        autoPlay
-        loop
-        muted
-        playsInline
-      />
+      <video className="home-video" src="bg.mp4" autoPlay loop muted playsInline/>
       <div className="home-overlay"/>
+      <div className="home-grid-overlay"/>
       <div className="home-center">
         <div className="home-pivot-text">PIVOT</div>
       </div>
@@ -550,7 +436,6 @@ function Home({ setTab }) {
   );
 }
 
-// GAME MODAL
 function GameModal({ game, onClose }) {
   const [boxScore, setBoxScore] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
@@ -564,52 +449,34 @@ function GameModal({ game, onClose }) {
       try {
         const r = await fetch(`${API}/nba/games/${game.id}/boxscore`);
         if (r.ok) setBoxScore(await r.json());
-      } catch(e) {}
-      finally { setLoading(false); }
+      } catch(e) {} finally { setLoading(false); }
     };
     load();
-    // Auto-refresh every 30s if live
-    if (type === 'live') {
-      const interval = setInterval(load, 30000);
-      return () => clearInterval(interval);
-    }
+    if (type === 'live') { const iv = setInterval(load, 30000); return () => clearInterval(iv); }
   }, [game.id]);
 
   React.useEffect(() => {
-    const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
+    const h = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', h);
+    return () => window.removeEventListener('keydown', h);
   }, []);
 
   const StatTable = ({ players, teamName }) => (
     <div>
       <div className="box-team-label">{teamName}</div>
       <table className="box-table">
-        <thead>
-          <tr>
-            <th style={{textAlign:'left', minWidth:160}}>Player</th>
-            <th>MIN</th>
-            <th>PTS</th>
-            <th>REB</th>
-            <th>AST</th>
-            <th>STL</th>
-            <th>BLK</th>
-            <th>FG</th>
-            <th>3P</th>
-            <th>FT</th>
-            <th>TO</th>
-          </tr>
-        </thead>
+        <thead><tr>
+          <th style={{textAlign:'left', minWidth:160}}>Player</th>
+          <th>MIN</th><th>PTS</th><th>REB</th><th>AST</th>
+          <th>STL</th><th>BLK</th><th>FG</th><th>3P</th><th>FT</th><th>TO</th>
+        </tr></thead>
         <tbody>
           {players.map((p, i) => (
             <tr key={i}>
               <td>{p.player} <span style={{fontSize:9, color:'#444', marginLeft:6}}>{p.pos}</span></td>
               <td>{p.min}</td>
               <td className="box-pts">{p.pts}</td>
-              <td>{p.reb}</td>
-              <td>{p.ast}</td>
-              <td>{p.stl}</td>
-              <td>{p.blk}</td>
+              <td>{p.reb}</td><td>{p.ast}</td><td>{p.stl}</td><td>{p.blk}</td>
               <td style={{fontSize:10}}>{p.fg}</td>
               <td style={{fontSize:10}}>{p.fg3}</td>
               <td style={{fontSize:10}}>{p.ft}</td>
@@ -631,13 +498,8 @@ function GameModal({ game, onClose }) {
             <div className="modal-team-abbr">{game.visitor_team.abbreviation}</div>
           </div>
           <div className="modal-score-center">
-            {hasScore
-              ? <div className="modal-score-big">{game.visitor_team_score} — {game.home_team_score}</div>
-              : <div className="modal-score-vs">VS</div>
-            }
-            <div className="modal-status">
-              {type === 'live' ? <span className="live-badge">● LIVE</span> : label}
-            </div>
+            {hasScore ? <div className="modal-score-big">{game.visitor_team_score} — {game.home_team_score}</div> : <div className="modal-score-vs">VS</div>}
+            <div className="modal-status">{type === 'live' ? <span className="live-badge">● LIVE</span> : label}</div>
           </div>
           <div className="modal-team home">
             <div className="modal-team-city">{game.home_team.city}</div>
@@ -646,13 +508,11 @@ function GameModal({ game, onClose }) {
           </div>
           <button className="modal-close" onClick={onClose}>✕</button>
         </div>
-
         <div className="modal-body">
           <div className="modal-tabs">
             <button className={`modal-tab ${activeTab==='boxscore'?'active':''}`} onClick={() => setActiveTab('boxscore')}>Box Score</button>
             <button className={`modal-tab ${activeTab==='info'?'active':''}`} onClick={() => setActiveTab('info')}>Game Info</button>
           </div>
-
           {activeTab === 'boxscore' && (
             <div className="box-score">
               {loading && <Loader label="Loading Box Score"/>}
@@ -663,20 +523,19 @@ function GameModal({ game, onClose }) {
               )}
               {!loading && boxScore && boxScore.total_players > 0 && (
                 <>
-                  <StatTable players={boxScore.away_players || []} teamName={`${game.visitor_team.city} ${game.visitor_team.name} (Away)`} />
-                  <StatTable players={boxScore.home_players || []} teamName={`${game.home_team.city} ${game.home_team.name} (Home)`} />
+                  <StatTable players={boxScore.away_players||[]} teamName={`${game.visitor_team.city} ${game.visitor_team.name} (Away)`}/>
+                  <StatTable players={boxScore.home_players||[]} teamName={`${game.home_team.city} ${game.home_team.name} (Home)`}/>
                 </>
               )}
             </div>
           )}
-
           {activeTab === 'info' && (
             <div style={{padding:'32px 40px'}}>
               {[
                 {k:'Home Team', v:`${game.home_team.city} ${game.home_team.name}`},
                 {k:'Away Team', v:`${game.visitor_team.city} ${game.visitor_team.name}`},
-                {k:'Conference Matchup', v:`${game.home_team.conference} vs ${game.visitor_team.conference}`},
-                {k:'Division Matchup', v:`${game.home_team.division} vs ${game.visitor_team.division}`},
+                {k:'Conference', v:`${game.home_team.conference} vs ${game.visitor_team.conference}`},
+                {k:'Division', v:`${game.home_team.division} vs ${game.visitor_team.division}`},
                 {k:'Date', v:game.date},
                 {k:'Status', v:label},
                 {k:'Game ID', v:game.id},
@@ -694,7 +553,6 @@ function GameModal({ game, onClose }) {
   );
 }
 
-// GAMES
 function Games() {
   const [games, setGames] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
@@ -705,25 +563,20 @@ function Games() {
   const fetch_ = async (d) => {
     setLoading(true); setError(null);
     try {
-      const ts = Date.now();
-      const r = await fetch(`${API}/nba/games?date=${d || today}&_=${ts}`);
+      const r = await fetch(`${API}/nba/games?date=${d||today}&_=${Date.now()}`);
       if (!r.ok) throw new Error(await r.text());
       const data = await r.json();
       setGames(data.games || []);
-    } catch(e) { setError(e.message); }
-    finally { setLoading(false); }
+    } catch(e) { setError(e.message); } finally { setLoading(false); }
   };
 
   React.useEffect(() => {
     fetch_();
-    const interval = setInterval(() => fetch_(today), 30000);
-    return () => clearInterval(interval);
+    const iv = setInterval(() => fetch_(today), 30000);
+    return () => clearInterval(iv);
   }, []);
 
-  const hasLive = games.some(g => {
-    const l = g.status?.toLowerCase() || '';
-    return l.includes('qtr') || l.includes('half') || l === 'in progress';
-  });
+  const hasLive = games.some(g => { const l = g.status?.toLowerCase()||''; return l.includes('qtr')||l.includes('half')||l==='in progress'; });
 
   return (
     <div>
@@ -731,7 +584,7 @@ function Games() {
         <button className="tb-btn" onClick={() => fetch_(today)}>Today</button>
         <button className="tb-btn" onClick={() => fetch_(getYesterday())}>Yesterday</button>
         <button className="tb-btn" onClick={() => fetch_(getTomorrow())}>Tomorrow</button>
-        {games.length > 0 && <div className="tb-info">{games.length} Games{hasLive ? ' · LIVE' : ''}</div>}
+        {games.length > 0 && <div className="tb-info">{games.length} Games{hasLive?' · LIVE':''}</div>}
         {hasLive && <div className="tb-info" style={{color:'var(--green)', animation:'blink 1.5s infinite'}}>AUTO-REFRESH ON</div>}
       </div>
       {error && <div className="err">{error}</div>}
@@ -742,26 +595,15 @@ function Games() {
           const { label, type } = parseStatus(g.status);
           const hasScore = g.home_team_score > 0 || g.visitor_team_score > 0;
           return (
-            <div key={g.id} className={`g-card`} onClick={() => setSelectedGame(g)}
-              style={{cursor:'pointer'}}>
-              <div className="g-time">
-                {type === 'live'
-                  ? <span className="live-badge">● LIVE</span>
-                  : label
-                }
-              </div>
+            <div key={g.id} className="g-card" onClick={() => setSelectedGame(g)}>
+              <div className="g-time">{type==='live' ? <span className="live-badge">● LIVE</span> : label}</div>
               <div className="g-matchup">
                 <div className="g-team-a">
                   <div className="g-city">{g.visitor_team.city}</div>
                   <div className="g-name">{g.visitor_team.name.split(' ').pop()}</div>
                   <div className="g-abbr">{g.visitor_team.abbreviation}</div>
                 </div>
-                <div>
-                  {hasScore
-                    ? <div className="g-score">{g.visitor_team_score}—{g.home_team_score}</div>
-                    : <div className="g-vs">VS</div>
-                  }
-                </div>
+                <div>{hasScore ? <div className="g-score">{g.visitor_team_score}—{g.home_team_score}</div> : <div className="g-vs">VS</div>}</div>
                 <div className="g-team-h">
                   <div className="g-city">{g.home_team.city}</div>
                   <div className="g-name">{g.home_team.name.split(' ').pop()}</div>
@@ -776,29 +618,23 @@ function Games() {
           );
         })}
       </div>
-
-      {selectedGame && (
-        <GameModal game={selectedGame} onClose={() => setSelectedGame(null)} />
-      )}
+      {selectedGame && <GameModal game={selectedGame} onClose={() => setSelectedGame(null)}/>}
     </div>
   );
 }
 
-// ANALYSIS
 function Analysis() {
   const [result, setResult] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
-  const today = new Date().toISOString().split('T')[0];
 
   const run = async (d) => {
     setLoading(true); setError(null);
     try {
-      const r = await fetch(`${API}/analysis/today-games${d ? `?date=${d}` : ''}`);
+      const r = await fetch(`${API}/analysis/today-games${d?`?date=${d}`:''}`);
       if (!r.ok) throw new Error(await r.text());
       setResult(await r.json());
-    } catch(e) { setError(e.message); }
-    finally { setLoading(false); }
+    } catch(e) { setError(e.message); } finally { setLoading(false); }
   };
 
   return (
@@ -809,27 +645,30 @@ function Analysis() {
         <button className="tb-btn" onClick={() => run(getTomorrow())}>Tomorrow</button>
         {result && <div className="tb-info">{result.game_count} Games</div>}
       </div>
-
       {error && <div className="err" style={{margin:'24px 40px'}}>{error}</div>}
-
       {!result && !loading && !error && (
         <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'60vh', gap:20}}>
           <div style={{fontSize:'clamp(60px,10vw,120px)', letterSpacing:16, color:'var(--white)', lineHeight:1}}>ANALYSIS</div>
           <div style={{fontSize:11, letterSpacing:6, color:'#333'}}>SELECT A DATE ABOVE TO RUN</div>
         </div>
       )}
-
       {loading && (
         <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'60vh', gap:20}}>
           <div style={{fontSize:11, letterSpacing:6, color:'var(--green)'}}>PIVOT IS ANALYZING</div>
           <Loader label=""/>
         </div>
       )}
-
       {!loading && result && (
         <div style={{maxWidth:900, padding:'48px 56px'}}>
-          <div style={{fontSize:10, letterSpacing:5, color:'var(--green)', marginBottom:32}}>
-            {result.game_count} Games · {new Date().toLocaleDateString([], {month:'short', day:'numeric', year:'numeric'}).toUpperCase()}
+          <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:32}}>
+            <div style={{fontSize:10, letterSpacing:5, color:'var(--green)'}}>
+              {result.game_count} Games · {new Date().toLocaleDateString([], {month:'short', day:'numeric', year:'numeric'}).toUpperCase()}
+            </div>
+            <button className="export-btn" onClick={() => window.print()} style={{
+              background:'none', border:'1px solid var(--green)', color:'var(--green)',
+              fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700,
+              fontSize:9, letterSpacing:3, textTransform:'uppercase', padding:'8px 20px', cursor:'pointer'
+            }}>Export PDF →</button>
           </div>
           <div style={{fontSize:15, lineHeight:2.1, letterSpacing:.5, color:'var(--white)', whiteSpace:'pre-wrap', fontWeight:400, textTransform:'none'}}>
             {result.analysis}
@@ -840,101 +679,218 @@ function Analysis() {
   );
 }
 
-// PLAYERS
 function Players() {
   const [query, setQuery] = React.useState('');
   const [result, setResult] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
+  const [sectionLoading, setSectionLoading] = React.useState({});
+  const [sectionData, setSectionData] = React.useState({});
+  const [expandedSection, setExpandedSection] = React.useState(null);
+
+  const [suggestions, setSuggestions] = React.useState([]);
+  const [showSugg, setShowSugg] = React.useState(false);
 
   const search = async (name) => {
     const q = name || query;
     if (!q.trim()) return;
-    // If full name entered, use last word (last name) for BallDontLie search
-    const searchTerm = q.trim().includes(' ') ? q.trim().split(' ').pop() : q.trim();
-    setLoading(true); setError(null);
+    setLoading(true); setError(null); setSectionData({}); setExpandedSection(null); setShowSugg(false);
     try {
-      const r = await fetch(`${API}/analysis/player?name=${encodeURIComponent(searchTerm)}&season=2025`);
+      const r = await fetch(`${API}/analysis/player?name=${encodeURIComponent(q.trim())}&season=2025`);
       if (!r.ok) throw new Error(await r.text());
       setResult(await r.json());
-    } catch(e) { setError(e.message); }
-    finally { setLoading(false); }
+    } catch(e) { setError(e.message); } finally { setLoading(false); }
   };
+
+  const fetchSuggestions = async (val) => {
+    if (val.length < 2) { setSuggestions([]); return; }
+    try {
+      const r = await fetch(`${API}/nba/players?name=${encodeURIComponent(val)}`);
+      if (r.ok) { const data = await r.json(); setSuggestions((data.players||[]).slice(0,6)); }
+    } catch(e) {}
+  };
+
+  const loadSection = async (section) => {
+    if (sectionData[section]) { setExpandedSection(expandedSection === section ? null : section); return; }
+    const searchTerm = result.player.last_name;
+    setSectionLoading(prev => ({...prev, [section]: true}));
+    setExpandedSection(section);
+    try {
+      const r = await fetch(`${API}/analysis/player/section?name=${encodeURIComponent(searchTerm)}&season=2025&section=${section}`);
+      if (!r.ok) throw new Error(await r.text());
+      const data = await r.json();
+      setSectionData(prev => ({...prev, [section]: data.analysis}));
+    } catch(e) { setSectionData(prev => ({...prev, [section]: 'Failed to load. Try again.'})); }
+    finally { setSectionLoading(prev => ({...prev, [section]: false})); }
+  };
+
+  const SECTIONS = [
+    { id: 'offense', label: 'Offense' },
+    { id: 'defense', label: 'Defense' },
+    { id: 'off_the_court', label: 'Off The Court' },
+    { id: 'injuries', label: 'Injuries' },
+    { id: 'financials', label: 'Financials' },
+  ];
+
+  const pct = (v) => v ? `${(v*100).toFixed(1)}%` : '—';
+  const trendStr = (r, s) => { if (r == null || s == null) return ''; const d = Math.round((r-s)*10)/10; if (d === 0) return '—'; return d > 0 ? `+${d}` : `${d}`; };
+  const trendColor = (r, s) => (r == null || s == null) ? '#444' : r >= s ? '#00FF41' : '#f33';
 
   return (
     <div>
-      <div className="toolbar">
-        <input
-          className="tb-input"
-          style={{width:'100%', fontSize:14, letterSpacing:3, padding:'0 28px'}}
-          placeholder="Search Player (e.g. LeBron James or Durant)..."
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && search()}
-        />
-        <button className="tb-btn" style={{fontSize:14, padding:'0 32px'}} onClick={() => search()} disabled={loading}>
+      <div className="toolbar" style={{position:'relative', overflow:'visible'}}>
+        <div style={{flex:1, position:'relative'}}>
+          <input className="tb-input" style={{width:'100%', fontSize:14, letterSpacing:3, padding:'0 28px'}}
+            placeholder="Search Player (e.g. LeBron James)..."
+            value={query}
+            onChange={e => { setQuery(e.target.value); fetchSuggestions(e.target.value); setShowSugg(true); }}
+            onKeyDown={e => { if (e.key==='Enter') { setShowSugg(false); search(); } if (e.key==='Escape') setShowSugg(false); }}
+            onBlur={() => setTimeout(() => setShowSugg(false), 150)}
+          />
+          {showSugg && suggestions.length > 0 && (
+            <div style={{position:'absolute', top:'100%', left:0, right:0, background:'var(--black)', border:'1px solid var(--green)', borderTop:'none', zIndex:9999, maxHeight:320, overflowY:'auto'}}>
+              {suggestions.map(p => (
+                <div key={p.id}
+                  onMouseDown={() => { const name = `${p.first_name} ${p.last_name}`; setQuery(name); setShowSugg(false); search(name); }}
+                  style={{padding:'12px 28px', cursor:'pointer', fontSize:12, letterSpacing:2, borderBottom:'1px solid var(--border)', display:'flex', justifyContent:'space-between', alignItems:'center'}}
+                  onMouseEnter={e => e.currentTarget.style.background='var(--grey)'}
+                  onMouseLeave={e => e.currentTarget.style.background=''}>
+                  <span>{p.first_name} {p.last_name}</span>
+                  <span style={{fontSize:9, letterSpacing:3, color:'#555'}}>{p.team?.abbreviation||'—'} · {p.position||'—'}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+        <button className="tb-btn" style={{fontSize:14, padding:'0 32px'}} onClick={() => { setShowSugg(false); search(); }} disabled={loading}>
           {loading ? '...' : 'Search →'}
         </button>
       </div>
-      <div style={{padding:'48px 56px', maxWidth:1200}}>
-        {error && <div className="err">{error}</div>}
-        {loading && <Loader label="Fetching Player"/>}
-        {!loading && !result && !error && (
-          <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'60vh', gap:20}}>
-            <div style={{fontSize:'clamp(60px,10vw,120px)', letterSpacing:16, color:'var(--white)', lineHeight:1, textAlign:'center'}}>
-              PLAYERS
-            </div>
-            <div style={{fontSize:11, letterSpacing:6, color:'#333', textAlign:'center'}}>
-              TYPE A NAME ABOVE AND HIT ENTER
-            </div>
-          </div>
-        )}
-        {!loading && result && !result.error && (
-          <>
-            <div style={{fontSize:'clamp(40px,5vw,80px)', letterSpacing:4, lineHeight:1, marginBottom:12}}>
+
+      {!loading && !result && !error && (
+        <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'60vh', gap:20}}>
+          <div style={{fontSize:'clamp(60px,10vw,120px)', letterSpacing:16, color:'var(--white)', lineHeight:1, textAlign:'center'}}>PLAYERS</div>
+          <div style={{fontSize:11, letterSpacing:6, color:'#333', textAlign:'center'}}>TYPE A NAME ABOVE AND HIT ENTER</div>
+        </div>
+      )}
+      {loading && (
+        <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'60vh', gap:20}}>
+          <div style={{fontSize:11, letterSpacing:6, color:'var(--green)'}}>PIVOT IS ANALYZING</div>
+          <Loader label=""/>
+        </div>
+      )}
+      {error && <div className="err" style={{margin:'24px 40px'}}>{error}</div>}
+
+      {!loading && result && !result.error && (
+        <div style={{padding:'40px 56px', maxWidth:1300}}>
+          <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:6}}>
+            <div style={{fontSize:'clamp(36px,5vw,72px)', letterSpacing:2, lineHeight:1}}>
               {result.player?.first_name} {result.player?.last_name}
             </div>
-            <div style={{fontSize:13, letterSpacing:5, color:'var(--green)', marginBottom:48}}>
-              {result.player?.team?.name || 'N/A'} · {result.player?.position || '—'} · {result.season} Season · {result.games_played} GP
-            </div>
-            {result.averages && (
-              <div style={{display:'grid', gridTemplateColumns:'repeat(3,1fr)', border:'2px solid var(--white)', marginBottom:48, maxWidth:600}}>
-                {[['points','PPG'],['rebounds','RPG'],['assists','APG']].map(([k,l]) => (
-                  <div key={k} style={{padding:'32px', borderRight:'1px solid var(--border)', textAlign:'center'}}>
-                    <div style={{fontSize:64, letterSpacing:-2, color:'var(--green)', textShadow:'0 0 20px rgba(0,255,65,.3)', lineHeight:1}}>{result.averages[k]}</div>
-                    <div style={{fontSize:10, letterSpacing:5, color:'#444', marginTop:8}}>{l}</div>
+            <button className="export-btn" onClick={() => window.print()} style={{
+              background:'none', border:'1px solid var(--green)', color:'var(--green)',
+              fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700,
+              fontSize:9, letterSpacing:3, textTransform:'uppercase', padding:'10px 20px', cursor:'pointer', marginTop:8
+            }}>Export PDF \u2192</button>
+          </div>
+          <div style={{fontSize:11, letterSpacing:4, color:'var(--green)', marginBottom:36}}>
+            {result.player?.team?.name||'N/A'} \u00b7 {result.player?.position||'\u2014'} \u00b7 {result.season} Season \u00b7 {result.games_played} GP
+          </div>
+
+          {result.averages && (
+            <div style={{marginBottom:32}}>
+              <div style={{fontSize:8, letterSpacing:4, color:'#444', marginBottom:10}}>Season Averages</div>
+              <div style={{display:'grid', gridTemplateColumns:'repeat(8,1fr)', border:'2px solid var(--white)'}}>
+                {[
+                  [result.averages.points,'PTS'],[result.averages.rebounds,'REB'],[result.averages.assists,'AST'],
+                  [result.averages.steals,'STL'],[result.averages.blocks,'BLK'],
+                  [pct(result.averages.fg_pct),'FG%'],[pct(result.averages.fg3_pct),'3P%'],[pct(result.averages.ft_pct),'FT%'],
+                ].map(([val,lbl],i) => (
+                  <div key={lbl} style={{textAlign:'center', padding:'20px 8px', borderRight:i<7?'1px solid var(--border)':'none'}}>
+                    <div style={{fontSize:32, letterSpacing:-1, color:'var(--green)', textShadow:'0 0 15px rgba(0,255,65,.25)', lineHeight:1}}>{val}</div>
+                    <div style={{fontSize:8, letterSpacing:4, color:'#444', marginTop:6}}>{lbl}</div>
                   </div>
                 ))}
               </div>
-            )}
-            {result.analysis && (
-              <div style={{fontSize:15, lineHeight:2, letterSpacing:.5, color:'var(--white)', whiteSpace:'pre-wrap', fontWeight:400, textTransform:'none', maxWidth:800}}>
+            </div>
+          )}
+
+          {result.last_10 && (
+            <div style={{marginBottom:36}}>
+              <div style={{fontSize:8, letterSpacing:4, color:'#444', marginBottom:10}}>Last 10 Games</div>
+              <div style={{display:'grid', gridTemplateColumns:'repeat(7,1fr)', border:'1px solid var(--border)', background:'var(--grey)'}}>
+                {[['points','PTS',false],['rebounds','REB',false],['assists','AST',false],['steals','STL',false],['blocks','BLK',false],['fg_pct','FG%',true],['fg3_pct','3P%',true]].map(([k,l,isPct],i) => {
+                  const val = result.last_10[k];
+                  const avg = result.averages[k];
+                  const display = isPct ? pct(val) : val;
+                  const trend = isPct ? trendStr(val*100, avg*100) : trendStr(val, avg);
+                  return (
+                    <div key={k} style={{textAlign:'center', padding:'16px 8px', borderRight:i<6?'1px solid var(--border)':'none'}}>
+                      <div style={{fontSize:26, letterSpacing:-1, color:'var(--white)', lineHeight:1}}>{display||'\u2014'}</div>
+                      <div style={{fontSize:8, letterSpacing:3, color:'#444', margin:'4px 0'}}>{l}</div>
+                      {val != null && avg != null && <div style={{fontSize:9, letterSpacing:1, color:trendColor(val,avg), fontWeight:400, textTransform:'none'}}>{trend}</div>}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {result.analysis && (
+            <div style={{marginBottom:36}}>
+              <div style={{fontSize:8, letterSpacing:4, color:'#444', marginBottom:14}}>Overview</div>
+              <div style={{fontSize:14, lineHeight:2.1, letterSpacing:.5, color:'var(--white)', whiteSpace:'pre-wrap', fontWeight:400, textTransform:'none', maxWidth:900}}>
                 {result.analysis}
               </div>
-            )}
-          </>
-        )}
-        {!loading && result?.error && <div style={{fontSize:13, letterSpacing:3, color:'#444', padding:'40px 0'}}>{result.error}</div>}
-      </div>
+            </div>
+          )}
+
+          <div style={{fontSize:8, letterSpacing:4, color:'#444', marginBottom:12}}>Deep Dive</div>
+          <div style={{border:'2px solid var(--white)', marginBottom:48}}>
+            {SECTIONS.map((s, i) => (
+              <div key={s.id} style={{borderBottom:i<SECTIONS.length-1?'1px solid var(--border)':'none'}}>
+                <div onClick={() => loadSection(s.id)} style={{
+                  display:'flex', justifyContent:'space-between', alignItems:'center',
+                  padding:'20px 28px', cursor:'pointer',
+                  background:expandedSection===s.id?'var(--grey)':'var(--black)', transition:'background 0.1s',
+                }}>
+                  <div style={{fontSize:12, letterSpacing:4}}>{s.label}</div>
+                  <div style={{display:'flex', alignItems:'center', gap:16}}>
+                    {sectionLoading[s.id] && <div style={{fontSize:9, letterSpacing:3, color:'var(--green)'}}>Analyzing...</div>}
+                    {sectionData[s.id] && !sectionLoading[s.id] && <div style={{fontSize:8, letterSpacing:2, color:'#444'}}>Loaded</div>}
+                    <div style={{fontSize:11, color:'var(--green)', transform:expandedSection===s.id?'rotate(180deg)':'rotate(0deg)', transition:'transform 0.2s', display:'inline-block'}}>&#9660;</div>
+                  </div>
+                </div>
+                {expandedSection === s.id && (
+                  <div style={{padding:'28px 32px', background:'var(--grey2)', borderTop:'1px solid var(--border)'}}>
+                    {sectionLoading[s.id] && <Loader label="Loading Analysis"/>}
+                    {!sectionLoading[s.id] && sectionData[s.id] && (
+                      <div style={{fontSize:14, lineHeight:2.1, letterSpacing:.5, color:'var(--white)', whiteSpace:'pre-wrap', fontWeight:400, textTransform:'none', maxWidth:900}}>
+                        {sectionData[s.id]}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+        </div>
+      )}
+      {!loading && result?.error && <div style={{fontSize:13, letterSpacing:3, color:'#444', padding:'40px 56px'}}>{result.error}</div>}
     </div>
   );
 }
-
-// ── FRONT OFFICE ─────────────────────────────────────────────────────────────
 function FrontOffice() {
   const [subTab, setSubTab] = React.useState('trade');
   const [loading, setLoading] = React.useState(false);
   const [result, setResult] = React.useState(null);
   const [error, setError] = React.useState(null);
-
-  // Trade state
   const [teamA, setTeamA] = React.useState('');
   const [teamB, setTeamB] = React.useState('');
   const [teamAGives, setTeamAGives] = React.useState(['']);
   const [teamBGives, setTeamBGives] = React.useState(['']);
   const [tradeContext, setTradeContext] = React.useState('');
-
-  // Roster state
   const [rosterTeam, setRosterTeam] = React.useState('');
 
   const addItem = (setter, arr) => setter([...arr, '']);
@@ -947,17 +903,11 @@ function FrontOffice() {
     try {
       const r = await fetch(`${API}/frontoffice/trade`, {
         method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({
-          team_a: teamA, team_b: teamB,
-          team_a_gives: teamAGives.filter(Boolean),
-          team_b_gives: teamBGives.filter(Boolean),
-          context: tradeContext
-        })
+        body: JSON.stringify({ team_a:teamA, team_b:teamB, team_a_gives:teamAGives.filter(Boolean), team_b_gives:teamBGives.filter(Boolean), context:tradeContext })
       });
       if (!r.ok) throw new Error(await r.text());
       setResult(await r.json());
-    } catch(e) { setError(e.message); }
-    finally { setLoading(false); }
+    } catch(e) { setError(e.message); } finally { setLoading(false); }
   };
 
   const runRoster = async () => {
@@ -967,131 +917,94 @@ function FrontOffice() {
       const r = await fetch(`${API}/frontoffice/roster?team_name=${encodeURIComponent(rosterTeam)}`);
       if (!r.ok) throw new Error(await r.text());
       setResult(await r.json());
-    } catch(e) { setError(e.message); }
-    finally { setLoading(false); }
+    } catch(e) { setError(e.message); } finally { setLoading(false); }
   };
 
-  const inputStyle = {
-    background:'var(--black)', border:'1px solid var(--border)',
-    color:'var(--white)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif',
-    fontWeight:700, fontSize:12, letterSpacing:2, textTransform:'uppercase',
-    padding:'10px 14px', outline:'none', width:'100%', transition:'border-color 0.1s'
-  };
-  const labelStyle = { fontSize:8, letterSpacing:4, color:'#444', marginBottom:6, display:'block' };
-  const addBtn = {
-    background:'none', border:'1px solid var(--border)', color:'#555',
-    fontSize:9, letterSpacing:3, padding:'6px 14px', cursor:'pointer',
-    fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700,
-    textTransform:'uppercase', marginTop:6, transition:'all 0.1s'
-  };
+  const inp = { background:'var(--black)', border:'1px solid var(--border)', color:'var(--white)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:12, letterSpacing:2, textTransform:'uppercase', padding:'10px 14px', outline:'none', width:'100%', transition:'border-color 0.1s' };
+  const lbl = { fontSize:8, letterSpacing:4, color:'#444', marginBottom:6, display:'block' };
+  const addBtn = { background:'none', border:'1px solid var(--border)', color:'#555', fontSize:9, letterSpacing:3, padding:'6px 14px', cursor:'pointer', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, textTransform:'uppercase', marginTop:6, transition:'all 0.1s' };
 
   return (
     <div>
       <div className="toolbar">
         {[['trade','Trade Finder'],['roster','Roster & Cap']].map(([id,label]) => (
-          <button key={id} className={`tb-btn ${subTab===id?'':''}` } style={subTab===id?{background:'var(--white)',color:'var(--black)'}:{}}
+          <button key={id} className="tb-btn" style={subTab===id?{background:'var(--white)',color:'var(--black)'}:{}}
             onClick={() => { setSubTab(id); setResult(null); setError(null); }}>
             {label}
           </button>
         ))}
-        
       </div>
-
-      <div style={{display:'grid', gridTemplateColumns: result ? '1fr 520px' : '600px 1fr', minHeight:'calc(100vh - 124px)'}}>
-
-        {/* LEFT — INPUTS */}
+      <div style={{display:'grid', gridTemplateColumns:result?'1fr 520px':'600px 1fr', minHeight:'calc(100vh - 124px)'}}>
         <div style={{borderRight:'1px solid var(--border)', padding:'40px 48px', overflowY:'auto'}}>
-
           {subTab === 'trade' && (
             <div>
               <div style={{fontSize:'clamp(28px,3vw,48px)', letterSpacing:6, marginBottom:32}}>Trade Finder</div>
-
               <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:32, marginBottom:32}}>
-                {/* Team A */}
                 <div>
-                  <label style={labelStyle}>Team A</label>
-                  <input style={inputStyle} placeholder="Lakers..." value={teamA} onChange={e=>setTeamA(e.target.value)}/>
+                  <label style={lbl}>Team A</label>
+                  <input style={inp} placeholder="Lakers..." value={teamA} onChange={e=>setTeamA(e.target.value)}/>
                   <div style={{marginTop:20}}>
-                    <label style={labelStyle}>Team A Sends</label>
+                    <label style={lbl}>Team A Sends</label>
                     {teamAGives.map((item,i) => (
                       <div key={i} style={{display:'flex', gap:6, marginBottom:6}}>
-                        <input style={{...inputStyle, flex:1}} placeholder="Player or Pick..."
-                          value={item} onChange={e=>updateItem(setTeamAGives, teamAGives, i, e.target.value)}/>
-                        {teamAGives.length > 1 &&
-                          <button style={{...addBtn, padding:'6px 10px', color:'#f33', borderColor:'rgba(255,50,50,.3)'}}
-                            onClick={()=>removeItem(setTeamAGives, teamAGives, i)}>✕</button>}
+                        <input style={{...inp, flex:1}} placeholder="Player or Pick..." value={item} onChange={e=>updateItem(setTeamAGives, teamAGives, i, e.target.value)}/>
+                        {teamAGives.length > 1 && <button style={{...addBtn, padding:'6px 10px', color:'#f33', borderColor:'rgba(255,50,50,.3)'}} onClick={()=>removeItem(setTeamAGives, teamAGives, i)}>✕</button>}
                       </div>
                     ))}
                     <button style={addBtn} onClick={()=>addItem(setTeamAGives, teamAGives)}>+ Add Player / Pick</button>
                   </div>
                 </div>
-
-                {/* Team B */}
                 <div>
-                  <label style={labelStyle}>Team B</label>
-                  <input style={inputStyle} placeholder="Celtics..." value={teamB} onChange={e=>setTeamB(e.target.value)}/>
+                  <label style={lbl}>Team B</label>
+                  <input style={inp} placeholder="Celtics..." value={teamB} onChange={e=>setTeamB(e.target.value)}/>
                   <div style={{marginTop:20}}>
-                    <label style={labelStyle}>Team B Sends</label>
+                    <label style={lbl}>Team B Sends</label>
                     {teamBGives.map((item,i) => (
                       <div key={i} style={{display:'flex', gap:6, marginBottom:6}}>
-                        <input style={{...inputStyle, flex:1}} placeholder="Player or Pick..."
-                          value={item} onChange={e=>updateItem(setTeamBGives, teamBGives, i, e.target.value)}/>
-                        {teamBGives.length > 1 &&
-                          <button style={{...addBtn, padding:'6px 10px', color:'#f33', borderColor:'rgba(255,50,50,.3)'}}
-                            onClick={()=>removeItem(setTeamBGives, teamBGives, i)}>✕</button>}
+                        <input style={{...inp, flex:1}} placeholder="Player or Pick..." value={item} onChange={e=>updateItem(setTeamBGives, teamBGives, i, e.target.value)}/>
+                        {teamBGives.length > 1 && <button style={{...addBtn, padding:'6px 10px', color:'#f33', borderColor:'rgba(255,50,50,.3)'}} onClick={()=>removeItem(setTeamBGives, teamBGives, i)}>✕</button>}
                       </div>
                     ))}
                     <button style={addBtn} onClick={()=>addItem(setTeamBGives, teamBGives)}>+ Add Player / Pick</button>
                   </div>
                 </div>
               </div>
-
               <div style={{marginBottom:24}}>
-                <label style={labelStyle}>Additional Context (Optional)</label>
-                <textarea style={{...inputStyle, height:80, resize:'vertical', fontWeight:400, textTransform:'none', fontSize:12}}
+                <label style={lbl}>Additional Context (Optional)</label>
+                <textarea style={{...inp, height:80, resize:'vertical', fontWeight:400, textTransform:'none', fontSize:12}}
                   placeholder="Cap considerations, injury history, team needs..."
                   value={tradeContext} onChange={e=>setTradeContext(e.target.value)}/>
               </div>
-
-              <button onClick={runTrade} disabled={loading || !teamA || !teamB}
-                style={{background:loading?'#222':'var(--green)', border:'none', color:loading?'#444':'var(--black)',
-                  fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700,
-                  fontSize:12, letterSpacing:4, textTransform:'uppercase', padding:'16px 40px', cursor:'pointer', transition:'all 0.1s'}}>
+              <button onClick={runTrade} disabled={loading||!teamA||!teamB}
+                style={{background:loading?'#222':'var(--green)', border:'none', color:loading?'#444':'var(--black)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:12, letterSpacing:4, textTransform:'uppercase', padding:'16px 40px', cursor:'pointer', transition:'all 0.1s'}}>
                 {loading ? 'Analyzing Trade...' : 'Evaluate Trade →'}
               </button>
             </div>
           )}
-
           {subTab === 'roster' && (
             <div>
               <div style={{fontSize:'clamp(28px,3vw,48px)', letterSpacing:6, marginBottom:32}}>Roster & Cap</div>
-              <label style={labelStyle}>Team Name</label>
+              <label style={lbl}>Team Name</label>
               <div style={{display:'flex', gap:0, marginBottom:24}}>
-                <input style={{...inputStyle, flex:1}} placeholder="Lakers, Celtics, Warriors..."
+                <input style={{...inp, flex:1}} placeholder="Lakers, Celtics, Warriors..."
                   value={rosterTeam} onChange={e=>setRosterTeam(e.target.value)}
                   onKeyDown={e=>e.key==='Enter'&&runRoster()}/>
-                <button onClick={runRoster} disabled={loading || !rosterTeam}
-                  style={{background:loading?'#222':'var(--green)', border:'none', color:loading?'#444':'var(--black)',
-                    fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700,
-                    fontSize:11, letterSpacing:3, textTransform:'uppercase', padding:'0 28px', cursor:'pointer'}}>
+                <button onClick={runRoster} disabled={loading||!rosterTeam}
+                  style={{background:loading?'#222':'var(--green)', border:'none', color:loading?'#444':'var(--black)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:11, letterSpacing:3, textTransform:'uppercase', padding:'0 28px', cursor:'pointer'}}>
                   {loading ? '...' : 'Analyze →'}
                 </button>
               </div>
               <div style={{fontSize:10, letterSpacing:3, color:'#333', lineHeight:2}}>
-                Get a full front office breakdown: roster evaluation, cap situation, trade targets, and recommended moves.
+                Full front office breakdown: roster evaluation, cap situation, trade targets, and recommended moves.
               </div>
             </div>
           )}
         </div>
-
-        {/* RIGHT — RESULTS */}
         <div style={{padding:'40px 48px', overflowY:'auto', background:'var(--grey)'}}>
           {!result && !loading && !error && (
             <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'50vh', gap:16}}>
               <div style={{fontSize:40, color:'#1a1a1a'}}>◈</div>
-              <div style={{fontSize:9, letterSpacing:4, color:'#333', textAlign:'center'}}>
-                {subTab==='trade' ? 'Build a Trade and Evaluate' : 'Enter a Team Name and Analyze'}
-              </div>
+              <div style={{fontSize:9, letterSpacing:4, color:'#333', textAlign:'center'}}>{subTab==='trade'?'Build a Trade and Evaluate':'Enter a Team Name and Analyze'}</div>
             </div>
           )}
           {loading && (
@@ -1114,6 +1027,13 @@ function FrontOffice() {
                   ))}
                 </div>
               )}
+              <div style={{display:'flex', justifyContent:'flex-end', marginBottom:20}}>
+                <button className="export-btn" onClick={() => window.print()} style={{
+                  background:'none', border:'1px solid var(--green)', color:'var(--green)',
+                  fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700,
+                  fontSize:9, letterSpacing:3, textTransform:'uppercase', padding:'8px 20px', cursor:'pointer'
+                }}>Export PDF →</button>
+              </div>
               <div style={{fontSize:15, lineHeight:2.1, letterSpacing:.5, color:'var(--white)', whiteSpace:'pre-wrap', fontWeight:400, textTransform:'none'}}>
                 {result.analysis}
               </div>
@@ -1125,8 +1045,6 @@ function FrontOffice() {
   );
 }
 
-
-// ── COACH MODE ────────────────────────────────────────────────────────────────
 function CoachMode() {
   const [games, setGames] = React.useState([]);
   const [selectedGame, setSelectedGame] = React.useState(null);
@@ -1135,7 +1053,7 @@ function CoachMode() {
   const [quarter, setQuarter] = React.useState('4');
   const [timeRemaining, setTimeRemaining] = React.useState('');
   const [scoreDiff, setScoreDiff] = React.useState('0');
-  const [mode, setMode] = React.useState('adjust'); // adjust | timeout
+  const [mode, setMode] = React.useState('adjust');
   const [result, setResult] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
@@ -1144,56 +1062,37 @@ function CoachMode() {
   const today = new Date().toISOString().split('T')[0];
 
   React.useEffect(() => {
-    fetch(`${API}/nba/games?date=${today}`)
-      .then(r=>r.ok?r.json():null)
-      .then(d=>setGames(d?.games||[]))
-      .catch(()=>{});
+    fetch(`${API}/nba/games?date=${today}&_=${Date.now()}`)
+      .then(r=>r.ok?r.json():null).then(d=>setGames(d?.games||[])).catch(()=>{});
   }, []);
 
   React.useEffect(() => {
     if (!selectedGame) return;
     fetch(`${API}/nba/games/${selectedGame.id}/boxscore`)
-      .then(r=>r.ok?r.json():null)
-      .then(d=>setBoxScore(d))
-      .catch(()=>{});
-    const { label } = parseStatus(selectedGame.status);
-    const home = selectedGame.home_team;
-    const away = selectedGame.visitor_team;
-    const diff = selectedGame.home_team_score - selectedGame.visitor_team_score;
-    setScoreDiff(String(diff));
+      .then(r=>r.ok?r.json():null).then(d=>setBoxScore(d)).catch(()=>{});
+    setScoreDiff(String(selectedGame.home_team_score - selectedGame.visitor_team_score));
   }, [selectedGame]);
 
   const run = async () => {
     setLoading(true); setError(null);
     try {
-      const endpoint = mode === 'adjust' ? '/coach/adjust' : '/coach/timeout';
-      const body = mode === 'adjust'
-        ? { game_id: selectedGame?.id, situation, my_team: myTeam }
-        : { game_id: selectedGame?.id, my_team: myTeam, score_diff: parseInt(scoreDiff)||0, time_remaining: timeRemaining, quarter: parseInt(quarter)||4, situation };
-      const r = await fetch(`${API}${endpoint}`, {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify(body)
-      });
+      const endpoint = mode==='adjust' ? '/coach/adjust' : '/coach/timeout';
+      const body = mode==='adjust'
+        ? { game_id:selectedGame?.id, situation, my_team:myTeam }
+        : { game_id:selectedGame?.id, my_team:myTeam, score_diff:parseInt(scoreDiff)||0, time_remaining:timeRemaining, quarter:parseInt(quarter)||4, situation };
+      const r = await fetch(`${API}${endpoint}`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) });
       if (!r.ok) throw new Error(await r.text());
       const data = await r.json();
       setResult(data);
-      setHistory(prev => [{...data, mode, timestamp: new Date().toLocaleTimeString(), situation}, ...prev.slice(0,9)]);
-    } catch(e) { setError(e.message); }
-    finally { setLoading(false); }
+      setHistory(prev => [{...data, mode, timestamp:new Date().toLocaleTimeString(), situation}, ...prev.slice(0,9)]);
+    } catch(e) { setError(e.message); } finally { setLoading(false); }
   };
 
-  const inputStyle = {
-    background:'#0a0a0a', border:'1px solid var(--border)',
-    color:'var(--white)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif',
-    fontWeight:700, fontSize:12, letterSpacing:2, textTransform:'uppercase',
-    padding:'10px 14px', outline:'none', width:'100%', transition:'border-color 0.1s'
-  };
-  const labelStyle = { fontSize:8, letterSpacing:4, color:'#444', marginBottom:6, display:'block' };
+  const inp = { background:'#0a0a0a', border:'1px solid var(--border)', color:'var(--white)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:12, letterSpacing:2, textTransform:'uppercase', padding:'10px 14px', outline:'none', width:'100%', transition:'border-color 0.1s' };
+  const lbl = { fontSize:8, letterSpacing:4, color:'#444', marginBottom:6, display:'block' };
 
   return (
     <div style={{display:'grid', gridTemplateColumns:'340px 1fr 320px', minHeight:'calc(100vh - 64px)'}}>
-
-      {/* LEFT — GAME SELECT + CONTROLS */}
       <div style={{borderRight:'2px solid var(--white)', display:'flex', flexDirection:'column', overflowY:'auto'}}>
         <div style={{padding:'20px', borderBottom:'1px solid var(--border)'}}>
           <div style={{fontSize:9, letterSpacing:4, color:'#444', marginBottom:12}}>Select Game</div>
@@ -1202,108 +1101,65 @@ function CoachMode() {
             const { label, type } = parseStatus(g.status);
             const sel = selectedGame?.id === g.id;
             return (
-              <div key={g.id}
-                onClick={() => { setSelectedGame(g); setMyTeam(''); }}
-                style={{
-                  padding:'12px 14px', marginBottom:4, cursor:'pointer',
-                  border: sel ? '1px solid var(--green)' : '1px solid var(--border)',
-                  background: sel ? 'rgba(0,255,65,0.05)' : 'var(--black)',
-                  transition:'all 0.1s'
-                }}>
-                <div style={{fontSize:8, letterSpacing:3, color: type==='live' ? 'var(--green)' : '#555', marginBottom:4}}>
-                  {type==='live' ? '● LIVE' : label}
-                </div>
-                <div style={{fontSize:13, letterSpacing:1}}>
-                  {g.visitor_team.abbreviation} @ {g.home_team.abbreviation}
-                </div>
+              <div key={g.id} onClick={() => { setSelectedGame(g); setMyTeam(''); }}
+                style={{ padding:'12px 14px', marginBottom:4, cursor:'pointer', border:sel?'1px solid var(--green)':'1px solid var(--border)', background:sel?'rgba(0,255,65,0.05)':'var(--black)', transition:'all 0.1s' }}>
+                <div style={{fontSize:8, letterSpacing:3, color:type==='live'?'var(--green)':'#555', marginBottom:4}}>{type==='live'?'● LIVE':label}</div>
+                <div style={{fontSize:13, letterSpacing:1}}>{g.visitor_team.abbreviation} @ {g.home_team.abbreviation}</div>
                 {(g.home_team_score > 0 || g.visitor_team_score > 0) && (
-                  <div style={{fontSize:11, color:'var(--green)', letterSpacing:2, marginTop:2}}>
-                    {g.visitor_team_score} — {g.home_team_score}
-                  </div>
+                  <div style={{fontSize:11, color:'var(--green)', letterSpacing:2, marginTop:2}}>{g.visitor_team_score} — {g.home_team_score}</div>
                 )}
               </div>
             );
           })}
         </div>
-
         {selectedGame && (
           <div style={{padding:'20px', flex:1}}>
             <div style={{fontSize:9, letterSpacing:4, color:'#444', marginBottom:12}}>My Team</div>
             <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:4, marginBottom:20}}>
               {[selectedGame.visitor_team, selectedGame.home_team].map(t => (
-                <button key={t.id}
-                  onClick={() => setMyTeam(t.name)}
-                  style={{
-                    background: myTeam===t.name ? 'var(--green)' : 'var(--black)',
-                    color: myTeam===t.name ? 'var(--black)' : '#555',
-                    border:`1px solid ${myTeam===t.name ? 'var(--green)' : 'var(--border)'}`,
-                    padding:'10px 8px', cursor:'pointer', fontSize:10, letterSpacing:2,
-                    fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700,
-                    textTransform:'uppercase', transition:'all 0.1s'
-                  }}>
+                <button key={t.id} onClick={() => setMyTeam(t.name)}
+                  style={{ background:myTeam===t.name?'var(--green)':'var(--black)', color:myTeam===t.name?'var(--black)':'#555', border:`1px solid ${myTeam===t.name?'var(--green)':'var(--border)'}`, padding:'10px 8px', cursor:'pointer', fontSize:10, letterSpacing:2, fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, textTransform:'uppercase', transition:'all 0.1s' }}>
                   {t.abbreviation}
                 </button>
               ))}
             </div>
-
             <div style={{fontSize:9, letterSpacing:4, color:'#444', marginBottom:8}}>Mode</div>
             <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:4, marginBottom:20}}>
               {[['adjust','Adjustment'],['timeout','Draw Play']].map(([id,label]) => (
                 <button key={id} onClick={() => setMode(id)}
-                  style={{
-                    background: mode===id ? 'var(--white)' : 'var(--black)',
-                    color: mode===id ? 'var(--black)' : '#555',
-                    border:`1px solid ${mode===id ? 'var(--white)' : 'var(--border)'}`,
-                    padding:'8px 4px', cursor:'pointer', fontSize:9, letterSpacing:2,
-                    fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700,
-                    textTransform:'uppercase', transition:'all 0.1s'
-                  }}>
+                  style={{ background:mode===id?'var(--white)':'var(--black)', color:mode===id?'var(--black)':'#555', border:`1px solid ${mode===id?'var(--white)':'var(--border)'}`, padding:'8px 4px', cursor:'pointer', fontSize:9, letterSpacing:2, fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, textTransform:'uppercase', transition:'all 0.1s' }}>
                   {label}
                 </button>
               ))}
             </div>
-
             {mode === 'timeout' && (
               <div style={{marginBottom:16}}>
                 <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:8}}>
                   <div>
-                    <label style={labelStyle}>Quarter</label>
-                    <select style={{...inputStyle, cursor:'pointer'}} value={quarter} onChange={e=>setQuarter(e.target.value)}>
+                    <label style={lbl}>Quarter</label>
+                    <select style={{...inp, cursor:'pointer'}} value={quarter} onChange={e=>setQuarter(e.target.value)}>
                       {[1,2,3,4,'OT'].map(q=><option key={q} value={q}>Q{q}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label style={labelStyle}>Time Left</label>
-                    <input style={inputStyle} placeholder="2:30" value={timeRemaining} onChange={e=>setTimeRemaining(e.target.value)}/>
+                    <label style={lbl}>Time Left</label>
+                    <input style={inp} placeholder="2:30" value={timeRemaining} onChange={e=>setTimeRemaining(e.target.value)}/>
                   </div>
                 </div>
-                <label style={labelStyle}>Score Diff (+ = winning)</label>
-                <input style={inputStyle} type="number" placeholder="-4" value={scoreDiff} onChange={e=>setScoreDiff(e.target.value)}/>
+                <label style={lbl}>Score Diff (+ = winning)</label>
+                <input style={inp} type="number" placeholder="-4" value={scoreDiff} onChange={e=>setScoreDiff(e.target.value)}/>
               </div>
             )}
-
-            <label style={{...labelStyle, marginTop:8}}>Situation</label>
-            <textarea
-              style={{...inputStyle, height:90, resize:'none', fontWeight:400, textTransform:'none', fontSize:12, marginBottom:16}}
-              placeholder={mode==='adjust'
-                ? "Down 8 in the 3rd, their zone is killing our offense..."
-                : "Need a quick 2, they're running man, our PG is hot..."}
-              value={situation} onChange={e=>setSituation(e.target.value)}
-            />
-
-            <button onClick={run} disabled={loading || !myTeam}
-              style={{
-                width:'100%', padding:'14px', fontSize:11, letterSpacing:4,
-                fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700,
-                textTransform:'uppercase', cursor:'pointer', border:'none', transition:'all 0.1s',
-                background: loading ? '#222' : 'var(--green)',
-                color: loading ? '#444' : 'var(--black)'
-              }}>
+            <label style={{...lbl, marginTop:8}}>Situation</label>
+            <textarea style={{...inp, height:90, resize:'none', fontWeight:400, textTransform:'none', fontSize:12, marginBottom:16}}
+              placeholder={mode==='adjust' ? "Down 8 in the 3rd, their zone is killing our offense..." : "Need a quick 2, they're running man, our PG is hot..."}
+              value={situation} onChange={e=>setSituation(e.target.value)}/>
+            <button onClick={run} disabled={loading||!myTeam}
+              style={{ width:'100%', padding:'14px', fontSize:11, letterSpacing:4, fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, textTransform:'uppercase', cursor:'pointer', border:'none', transition:'all 0.1s', background:loading?'#222':'var(--green)', color:loading?'#444':'var(--black)' }}>
               {loading ? 'Thinking...' : mode==='adjust' ? 'Get Adjustments →' : 'Draw Play →'}
             </button>
           </div>
         )}
-
         {!selectedGame && (
           <div style={{padding:'32px 20px', fontSize:9, letterSpacing:3, color:'#333', lineHeight:2}}>
             Select a game to activate coach mode. Works best with live games. PIVOT reads the live box score and delivers real adjustments based on what's actually happening on the court.
@@ -1311,32 +1167,24 @@ function CoachMode() {
         )}
       </div>
 
-      {/* CENTER — RESPONSE */}
       <div style={{borderRight:'1px solid var(--border)', overflowY:'auto'}}>
         {!result && !loading && !error && (
           <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'70vh', gap:16}}>
             <div style={{fontSize:'clamp(40px,6vw,80px)', letterSpacing:12, color:'var(--white)', lineHeight:1, textAlign:'center'}}>COACH<br/>MODE</div>
-            <div style={{fontSize:9, letterSpacing:4, color:'#333', textAlign:'center', maxWidth:300, lineHeight:2}}>
-              Select a game, pick your team, describe the situation, get real-time coaching adjustments from PIVOT
-            </div>
+            <div style={{fontSize:9, letterSpacing:4, color:'#333', textAlign:'center', maxWidth:300, lineHeight:2}}>Select a game, pick your team, describe the situation, get real-time coaching adjustments from PIVOT</div>
           </div>
         )}
-
         {loading && (
           <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'70vh', gap:16}}>
             <div style={{fontSize:10, letterSpacing:5, color:'var(--green)'}}>PIVOT IS COACHING</div>
             <Loader label=""/>
           </div>
         )}
-
         {error && <div className="err" style={{margin:24}}>{error}</div>}
-
         {!loading && result && (
           <div style={{padding:'40px 48px'}}>
             <div style={{display:'flex', gap:12, alignItems:'center', marginBottom:28}}>
-              <div style={{fontSize:9, letterSpacing:4, color:'var(--green)'}}>
-                {result.mode === 'timeout' ? '⊙ PLAY DRAWN' : '⊙ ADJUSTMENTS READY'}
-              </div>
+              <div style={{fontSize:9, letterSpacing:4, color:'var(--green)'}}>{result.mode==='timeout'?'⊙ PLAY DRAWN':'⊙ ADJUSTMENTS READY'}</div>
               <div style={{fontSize:9, letterSpacing:2, color:'#333'}}>{result.my_team}</div>
             </div>
             <div style={{fontSize:15, lineHeight:2.2, letterSpacing:.5, color:'var(--white)', whiteSpace:'pre-wrap', fontWeight:400, textTransform:'none'}}>
@@ -1346,7 +1194,6 @@ function CoachMode() {
         )}
       </div>
 
-      {/* RIGHT — HISTORY + LIVE BOX */}
       <div style={{overflowY:'auto', background:'var(--grey)'}}>
         {selectedGame && boxScore && boxScore.total_players > 0 && (
           <div style={{borderBottom:'1px solid var(--border)'}}>
@@ -1355,7 +1202,7 @@ function CoachMode() {
             </div>
             <div style={{padding:'0 16px 16px'}}>
               {['away_players','home_players'].map(key => {
-                const team = key === 'home_players' ? boxScore.home_team : boxScore.away_team;
+                const team = key==='home_players' ? boxScore.home_team : boxScore.away_team;
                 const players = (boxScore[key]||[]).slice(0,6);
                 return (
                   <div key={key} style={{marginTop:12}}>
@@ -1372,19 +1219,16 @@ function CoachMode() {
             </div>
           </div>
         )}
-
         <div style={{padding:'16px 20px'}}>
           <div style={{fontSize:8, letterSpacing:4, color:'#444', marginBottom:12}}>Call History</div>
           {history.length === 0 && <div style={{fontSize:9, letterSpacing:3, color:'#333'}}>No calls yet this session</div>}
           {history.map((h,i) => (
-            <div key={i} style={{padding:'12px', marginBottom:6, border:'1px solid var(--border)', background:'var(--black)', cursor:'pointer'}}
-              onClick={() => setResult(h)}>
+            <div key={i} style={{padding:'12px', marginBottom:6, border:'1px solid var(--border)', background:'var(--black)', cursor:'pointer'}} onClick={() => setResult(h)}>
               <div style={{display:'flex', justifyContent:'space-between', marginBottom:4}}>
                 <span style={{fontSize:8, letterSpacing:3, color:'var(--green)'}}>{h.mode?.toUpperCase()}</span>
                 <span style={{fontSize:8, letterSpacing:2, color:'#333'}}>{h.timestamp}</span>
               </div>
-              <div style={{fontSize:10, letterSpacing:1, color:'#888', fontWeight:400, textTransform:'none',
-                overflow:'hidden', whiteSpace:'nowrap', textOverflow:'ellipsis'}}>
+              <div style={{fontSize:10, letterSpacing:1, color:'#888', fontWeight:400, textTransform:'none', overflow:'hidden', whiteSpace:'nowrap', textOverflow:'ellipsis'}}>
                 {h.situation || 'No situation provided'}
               </div>
             </div>
@@ -1395,7 +1239,6 @@ function CoachMode() {
   );
 }
 
-// ── APP ───────────────────────────────────────────────────────────────────────
 function App() {
   const [tab, setTab] = React.useState('home');
   const [scrolled, setScrolled] = React.useState(false);
@@ -1417,15 +1260,13 @@ function App() {
           ))}
         </div>
       </nav>
-
-      <div style={{paddingTop: isHome ? 0 : 64, paddingBottom: 40}}>
-        {tab==='home'        && <Home setTab={setTab}/>}
+      <div style={{paddingTop:isHome?0:64, paddingBottom:40}}>
+        {tab==='home'        && <Home/>}
         {tab==='games'       && <Games/>}
         {tab==='players'     && <Players/>}
         {tab==='frontoffice' && <FrontOffice/>}
         {tab==='coach'       && <CoachMode/>}
       </div>
-
       <Ticker/>
     </>
   );
