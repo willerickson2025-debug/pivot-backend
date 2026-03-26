@@ -30,29 +30,39 @@ html, body {
 nav {
   position: fixed;
   top: 0; left: 0; right: 0;
-  height: 64px;
-  background: transparent;
+  height: 70px;
+  z-index: 1000;
   display: flex;
   align-items: center;
-  justify-content: center;
-  z-index: 1000;
+  justify-content: space-between;
+  padding: 0 32px;
+  transition: background 0.3s, border-color 0.3s;
 }
-nav.scrolled {
-  background: rgba(0,0,0,0.95);
+nav.solid {
+  background: rgba(0,0,0,0.96);
   border-bottom: 1px solid var(--border);
 }
-.nav-tabs { display: flex; align-items: stretch; height: 64px; }
+.nav-logo {
+  font-size: 18px;
+  letter-spacing: 8px;
+  color: var(--white);
+  cursor: pointer;
+  font-weight: 700;
+  user-select: none;
+}
+.nav-logo:hover { color: var(--green); }
+.nav-tabs { display: flex; align-items: stretch; height: 70px; }
 .nav-tab {
   display: flex;
   align-items: center;
-  padding: 0 36px;
-  font-size: 11px;
+  padding: 0 28px;
+  font-size: 10px;
   letter-spacing: 4px;
   color: rgba(255,255,255,0.4);
   border: none;
   background: none;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: color 0.15s;
   text-transform: uppercase;
   font-weight: 700;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -68,157 +78,195 @@ nav.scrolled {
   background: var(--green);
   box-shadow: 0 0 10px var(--green);
 }
+.nav-cta {
+  background: var(--green);
+  color: var(--black);
+  border: none;
+  padding: 10px 24px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  font-weight: 700;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  border-radius: 2px;
+}
+.nav-cta:hover { opacity: 0.85; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
-
-/* HOME */
 .home-wrap {
   position: relative;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   overflow: hidden;
+  background: var(--black);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.home-video {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  z-index: 0;
-  opacity: 0.45;
-  filter: grayscale(100%) contrast(1.1);
 }
 .home-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
-  z-index: 1;
+  position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%);
 }
 .home-grid-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
   background-image:
-    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
   background-size: 20px 20px;
-  pointer-events: none;
 }
-.home-center {
-  position: relative;
-  z-index: 2;
+.home-hero {
+  position: relative; z-index: 3;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
   text-align: center;
+  padding: 0 40px;
+  width: 100%;
 }
 .home-pivot-text {
-  font-size: clamp(80px, 18vw, 220px);
-  letter-spacing: -4px;
+  font-size: clamp(100px, 20vw, 240px);
+  letter-spacing: -8px;
   color: var(--white);
   font-weight: 700;
-  line-height: 1;
+  line-height: 0.9;
+  margin-bottom: 32px;
+  text-shadow: 0 0 80px rgba(0,255,65,0.15);
 }
-
-/* MODAL */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.88);
-  z-index: 2000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  backdrop-filter: blur(4px);
+.home-tagline {
+  font-size: 12px;
+  letter-spacing: 6px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 400;
+  text-transform: uppercase;
+  max-width: 560px;
+  line-height: 2.2;
+  margin-bottom: 52px;
+  text-align: center;
 }
-.modal {
-  background: var(--black);
-  border: 2px solid var(--white);
-  width: 100%;
-  max-width: 1100px;
-  max-height: 85vh;
-  overflow-y: auto;
-  position: relative;
-}
-.modal-header {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  padding: 28px 32px;
-  border-bottom: 2px solid var(--white);
-  position: sticky;
-  top: 0;
-  background: var(--black);
-  z-index: 10;
-}
-.modal-team { display: flex; flex-direction: column; }
-.modal-team.home { text-align: right; }
-.modal-team-city { font-size: 9px; letter-spacing: 3px; color: #555; margin-bottom: 4px; }
-.modal-team-name { font-size: 28px; letter-spacing: 2px; line-height: 1; }
-.modal-team-abbr { font-size: 9px; letter-spacing: 3px; color: #444; margin-top: 4px; }
-.modal-score-center { text-align: center; }
-.modal-score-big { font-size: 48px; letter-spacing: 3px; color: var(--green); text-shadow: 0 0 20px rgba(0,255,65,.3); line-height: 1; }
-.modal-score-vs { font-size: 11px; letter-spacing: 4px; color: #333; }
-.modal-status { font-size: 9px; letter-spacing: 3px; color: var(--green); margin-top: 6px; }
-.modal-close {
-  position: absolute;
-  top: 20px; right: 24px;
-  background: none;
-  border: 1px solid var(--border);
-  color: var(--white);
-  font-size: 16px;
-  width: 32px; height: 32px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.1s;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 700;
-}
-.modal-close:hover { background: var(--white); color: var(--black); }
-.modal-body { padding: 0; }
-.modal-tabs { display: flex; border-bottom: 1px solid var(--border); }
-.modal-tab {
-  padding: 14px 28px;
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: #555;
-  cursor: pointer;
+.home-ctas { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+.home-cta-primary {
+  background: var(--green);
+  color: var(--black);
   border: none;
-  background: none;
-  border-right: 1px solid var(--border);
-  border-bottom: 2px solid transparent;
-  transition: all 0.1s;
+  padding: 16px 40px;
+  font-size: 11px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.home-cta-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+.home-cta-secondary {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 16px 40px;
+  font-size: 11px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.home-cta-secondary:hover { border-color: var(--white); background: rgba(255,255,255,0.06); }
+.home-scroll-hint {
+  position: absolute; bottom: 48px; left: 50%; transform: translateX(-50%); z-index: 3;
+  font-size: 8px; letter-spacing: 4px; color: #333;
+  display: flex; align-items: center; gap: 12px;
+  white-space: nowrap;
+}
+.home-scroll-line { width: 40px; height: 1px; background: #222; }
+.audio-btn {
+  position: fixed;
+  bottom: 52px;
+  right: 20px;
+  z-index: 1100;
+  background: var(--black);
+  border: 1px solid var(--green);
+  color: var(--green);
+  font-size: 9px;
+  letter-spacing: 3px;
+  padding: 8px 14px;
+  cursor: pointer;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 700;
   text-transform: uppercase;
+  transition: all 0.15s;
 }
-.modal-tab:hover { color: var(--white); }
-.modal-tab.active { color: var(--green); border-bottom-color: var(--green); }
-.box-score { padding: 24px 32px; }
-.box-team-label { font-size: 9px; letter-spacing: 4px; color: var(--green); margin-bottom: 12px; margin-top: 24px; }
-.box-table { width: 100%; border-collapse: collapse; }
-.box-table th {
-  font-size: 8px; letter-spacing: 3px; color: #444;
-  padding: 8px 10px; text-align: right;
-  border-bottom: 1px solid var(--border);
+.audio-btn:hover { background: var(--green); color: var(--black); }
+.features-section {
+  position: relative;
+  padding: 120px 80px;
+  background: var(--black);
+  border-top: 1px solid var(--border);
+  text-align: center;
 }
-.box-table th:first-child { text-align: left; }
-.box-table td {
-  font-size: 11px; letter-spacing: 1px; color: var(--white);
-  padding: 10px 10px; text-align: right;
-  border-bottom: 1px solid #141414;
-  font-weight: 400;
+.features-label { font-size: 9px; letter-spacing: 6px; color: var(--green); margin-bottom: 24px; }
+.features-title {
+  font-size: clamp(32px, 4vw, 56px);
+  letter-spacing: 2px;
+  color: var(--white);
+  margin-bottom: 64px;
+  line-height: 1.1;
+  max-width: 700px;
+  font-weight: 700;
+  margin-left: auto;
+  margin-right: auto;
 }
-.box-table td:first-child { text-align: left; font-weight: 700; font-size: 12px; }
-.box-table tr:hover td { background: var(--grey); }
-.box-pts { color: var(--green) !important; font-weight: 700 !important; font-size: 13px !important; }
-.live-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 8px; letter-spacing: 3px; color: var(--green);
-  border: 1px solid var(--green); padding: 3px 8px;
-  animation: blink 1s infinite;
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; text-align: left; }
+.feature-card {
+  background: var(--grey);
+  border: 1px solid var(--border);
+  padding: 40px 36px;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
 }
-
-/* TICKER */
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--green);
+  transform: scaleX(0);
+  transition: transform 0.2s;
+  transform-origin: left;
+}
+.feature-card:hover::before { transform: scaleX(1); }
+.feature-card:hover { background: #151515; }
+.feature-num { font-size: 9px; letter-spacing: 4px; color: #333; margin-bottom: 24px; }
+.feature-name { font-size: 18px; letter-spacing: 3px; color: var(--white); margin-bottom: 16px; }
+.feature-desc { font-size: 11px; letter-spacing: 1px; color: #555; font-weight: 400; text-transform: none; line-height: 2; margin-bottom: 32px; }
+.feature-stat { font-size: 28px; letter-spacing: -1px; color: var(--green); text-shadow: 0 0 20px rgba(0,255,65,0.3); }
+.feature-stat-label { font-size: 8px; letter-spacing: 3px; color: #333; margin-top: 4px; }
+.cta-section {
+  position: relative;
+  padding: 120px 80px;
+  background: var(--grey);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.cta-title { font-size: clamp(32px, 4vw, 56px); letter-spacing: 4px; color: var(--white); margin-bottom: 20px; line-height: 1.1; }
+.cta-sub { font-size: 11px; letter-spacing: 4px; color: #555; font-weight: 400; text-transform: uppercase; margin-bottom: 48px; }
+.cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.home-footer {
+  background: var(--black);
+  border-top: 1px solid var(--border);
+  padding: 32px 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: #333;
+}
+.home-footer-logo { color: var(--white); font-size: 14px; letter-spacing: 6px; }
 .ticker {
   position: fixed;
   bottom: 0; left: 0; right: 0;
@@ -238,33 +286,19 @@ nav.scrolled {
   letter-spacing: 3px;
   padding: 0 16px;
   height: 100%;
-  display: flex;
-  align-items: center;
-  font-weight: 700;
-  white-space: nowrap;
-  z-index: 2;
+  display: flex; align-items: center;
+  font-weight: 700; white-space: nowrap; z-index: 2;
 }
 .ticker-track-wrap { flex: 1; overflow: hidden; height: 100%; display: flex; align-items: center; }
 .ticker-track {
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
+  display: flex; align-items: center; white-space: nowrap;
   animation: ticker-scroll 40s linear infinite;
   will-change: transform;
 }
 .ticker-track:hover { animation-play-state: paused; }
 @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-.ticker-item {
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: var(--green);
-  padding: 0 32px;
-  text-shadow: 0 0 8px rgba(0,255,65,0.4);
-  white-space: nowrap;
-}
+.ticker-item { font-size: 11px; letter-spacing: 2px; color: var(--green); padding: 0 32px; text-shadow: 0 0 8px rgba(0,255,65,0.4); white-space: nowrap; }
 .ticker-sep { color: #1a1a1a; font-size: 14px; padding: 0 8px; }
-
-/* TOOLBAR */
 .toolbar {
   height: 60px;
   border-bottom: 2px solid var(--white);
@@ -273,57 +307,35 @@ nav.scrolled {
   background: var(--black);
 }
 .tb-btn {
-  background: var(--black);
-  border: none;
+  background: var(--black); border: none;
   border-right: 1px solid var(--border);
   color: var(--green);
-  font-size: 12px;
-  letter-spacing: 3px;
-  font-weight: 700;
+  font-size: 12px; letter-spacing: 3px; font-weight: 700;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
-  padding: 0 28px;
-  cursor: pointer;
-  transition: all 0.1s;
-  white-space: nowrap;
+  text-transform: uppercase; padding: 0 28px;
+  cursor: pointer; transition: all 0.1s; white-space: nowrap;
 }
 .tb-btn:hover { background: var(--green); color: var(--black); }
 .tb-btn:disabled { color: #333; cursor: not-allowed; }
 .tb-input {
-  background: var(--black);
-  border: none;
+  background: var(--black); border: none;
   border-right: 1px solid var(--border);
   color: var(--white);
-  font-size: 12px;
-  letter-spacing: 2px;
-  font-weight: 700;
+  font-size: 12px; letter-spacing: 2px; font-weight: 700;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
-  padding: 0 20px;
-  outline: none;
-  width: 220px;
+  text-transform: uppercase; padding: 0 20px;
+  outline: none; width: 220px;
 }
 .tb-input::placeholder { color: #333; }
 .tb-info {
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
-  font-size: 11px;
-  letter-spacing: 3px;
-  color: #333;
-  margin-left: auto;
-  border-left: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 24px;
+  font-size: 11px; letter-spacing: 3px; color: #333;
+  margin-left: auto; border-left: 1px solid var(--border);
 }
-
-/* GAMES GRID */
 .g-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); }
 .g-card {
-  border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 28px;
-  cursor: pointer;
-  transition: background 0.1s;
-  position: relative;
+  border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 28px; cursor: pointer; transition: background 0.1s; position: relative;
 }
 .g-card:hover { background: var(--grey); }
 .g-time { font-size: 11px; letter-spacing: 3px; color: var(--green); margin-bottom: 24px; }
@@ -337,25 +349,69 @@ nav.scrolled {
 .g-vs { font-size: 12px; letter-spacing: 4px; color: #333; text-align: center; }
 .g-badge { display: inline-block; font-size: 9px; letter-spacing: 3px; padding: 4px 10px; border: 1px solid #333; color: #555; }
 .g-badge.live { border-color: var(--green); color: var(--green); animation: blink 1s infinite; }
-
-/* SHARED */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.88);
+  z-index: 2000; display: flex; align-items: center; justify-content: center;
+  padding: 24px; backdrop-filter: blur(4px);
+}
+.modal { background: var(--black); border: 2px solid var(--white); width: 100%; max-width: 1100px; max-height: 85vh; overflow-y: auto; position: relative; }
+.modal-header {
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; padding: 28px 32px;
+  border-bottom: 2px solid var(--white);
+  position: sticky; top: 0; background: var(--black); z-index: 10;
+}
+.modal-team { display: flex; flex-direction: column; }
+.modal-team.home { text-align: right; }
+.modal-team-city { font-size: 9px; letter-spacing: 3px; color: #555; margin-bottom: 4px; }
+.modal-team-name { font-size: 28px; letter-spacing: 2px; line-height: 1; }
+.modal-team-abbr { font-size: 9px; letter-spacing: 3px; color: #444; margin-top: 4px; }
+.modal-score-center { text-align: center; }
+.modal-score-big { font-size: 48px; letter-spacing: 3px; color: var(--green); text-shadow: 0 0 20px rgba(0,255,65,.3); line-height: 1; }
+.modal-score-vs { font-size: 11px; letter-spacing: 4px; color: #333; }
+.modal-status { font-size: 9px; letter-spacing: 3px; color: var(--green); margin-top: 6px; }
+.modal-close {
+  position: absolute; top: 20px; right: 24px;
+  background: none; border: 1px solid var(--border);
+  color: var(--white); font-size: 16px; width: 32px; height: 32px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.1s; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 700;
+}
+.modal-close:hover { background: var(--white); color: var(--black); }
+.modal-tabs { display: flex; border-bottom: 1px solid var(--border); }
+.modal-tab {
+  padding: 14px 28px; font-size: 10px; letter-spacing: 3px; color: #555;
+  cursor: pointer; border: none; background: none;
+  border-right: 1px solid var(--border); border-bottom: 2px solid transparent;
+  transition: all 0.1s; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700; text-transform: uppercase;
+}
+.modal-tab:hover { color: var(--white); }
+.modal-tab.active { color: var(--green); border-bottom-color: var(--green); }
+.box-score { padding: 24px 32px; }
+.box-team-label { font-size: 9px; letter-spacing: 4px; color: var(--green); margin-bottom: 12px; margin-top: 24px; }
+.box-table { width: 100%; border-collapse: collapse; }
+.box-table th { font-size: 8px; letter-spacing: 3px; color: #444; padding: 8px 10px; text-align: right; border-bottom: 1px solid var(--border); }
+.box-table th:first-child { text-align: left; }
+.box-table td { font-size: 11px; letter-spacing: 1px; color: var(--white); padding: 10px 10px; text-align: right; border-bottom: 1px solid #141414; font-weight: 400; }
+.box-table td:first-child { text-align: left; font-weight: 700; font-size: 12px; }
+.box-table tr:hover td { background: var(--grey); }
+.box-pts { color: var(--green) !important; font-weight: 700 !important; font-size: 13px !important; }
+.live-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 8px; letter-spacing: 3px; color: var(--green); border: 1px solid var(--green); padding: 3px 8px; animation: blink 1s infinite; }
 .loader { display: flex; align-items: center; gap: 14px; padding: 40px 48px; font-size: 11px; letter-spacing: 4px; color: #333; }
 .loader-bar { width: 48px; height: 2px; background: #1a1a1a; position: relative; overflow: hidden; }
 .loader-bar::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--green); animation: sweep 1s infinite; }
 @keyframes sweep { to { left: 100%; } }
-.err { background: rgba(255,50,50,.06); border-left: 3px solid #f33; padding: 14px 28px; font-size: 11px; letter-spacing: 2px; color: #f33; margin: 0; }
+.err { background: rgba(255,50,50,.06); border-left: 3px solid #f33; padding: 14px 28px; font-size: 11px; letter-spacing: 2px; color: #f33; }
 .empty { padding: 48px; font-size: 11px; letter-spacing: 4px; color: #333; text-align: center; }
-
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: var(--black); }
 ::-webkit-scrollbar-thumb { background: #2a2a2a; }
-
-/* PDF PRINT */
 @media print {
-  nav, .ticker, .toolbar, .export-btn { display: none !important; }
+  nav, .ticker, .toolbar, .export-btn, .audio-btn { display: none !important; }
   body { background: white !important; color: black !important; }
   * { color: black !important; border-color: #ccc !important; background: white !important; text-shadow: none !important; box-shadow: none !important; }
-  .home-wrap, .modal-backdrop { display: none !important; }
+  .home-wrap { display: none !important; }
 }
 </style>
 </head>
@@ -380,7 +436,7 @@ function parseStatus(s) {
     const d = new Date(s);
     if (!isNaN(d)) return { label: d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }), type: 'sched' };
   } catch(e) {}
-  return { label: s.substring(0, 18), type: 'sched' };
+  return { label: s.substring(0,18), type: 'sched' };
 }
 
 function Ticker() {
@@ -391,19 +447,18 @@ function Ticker() {
       .then(r => r.ok ? r.json() : null)
       .then(data => {
         if (!data?.games?.length) return;
-        const gameItems = data.games.map(g => {
+        setItems(data.games.map(g => {
           const hasScore = g.home_team_score > 0 || g.visitor_team_score > 0;
-          if (hasScore) return `${g.visitor_team.abbreviation} ${g.visitor_team_score} — ${g.home_team_score} ${g.home_team.abbreviation}`;
+          if (hasScore) return `${g.visitor_team.abbreviation} ${g.visitor_team_score} \u2014 ${g.home_team_score} ${g.home_team.abbreviation}`;
           try {
             const d = new Date(g.status);
-            const t = isNaN(d) ? g.status : d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
+            const t = isNaN(d) ? g.status : d.toLocaleTimeString([], { hour:'numeric', minute:'2-digit', timeZoneName:'short' });
             return `${g.visitor_team.abbreviation} @ ${g.home_team.abbreviation}  ${t}`;
           } catch { return `${g.visitor_team.abbreviation} @ ${g.home_team.abbreviation}`; }
-        });
-        setItems(gameItems);
-      }).catch(() => {});
+        }));
+      }).catch(()=>{});
   }, []);
-  const fallback = ['PIVOT — NBA INTELLIGENCE PLATFORM', "TODAY'S SLATE NOW LOADING", 'GAMES · ANALYSIS · PLAYERS', 'POWERED BY PIVOT'];
+  const fallback = ['PIVOT \u2014 NBA INTELLIGENCE PLATFORM', "TODAY'S SLATE NOW LOADING", 'GAMES \u00b7 ANALYSIS \u00b7 PLAYERS', 'POWERED BY PIVOT'];
   const display = items.length ? items : fallback;
   const doubled = [...display, ...display];
   return (
@@ -411,10 +466,10 @@ function Ticker() {
       <div className="ticker-label">NBA LIVE</div>
       <div className="ticker-track-wrap">
         <div className="ticker-track">
-          {doubled.map((item, i) => (
+          {doubled.map((item,i) => (
             <React.Fragment key={i}>
               <span className="ticker-item">{item}</span>
-              <span className="ticker-sep">◆</span>
+              <span className="ticker-sep">\u25c6</span>
             </React.Fragment>
           ))}
         </div>
@@ -423,14 +478,87 @@ function Ticker() {
   );
 }
 
-function Home() {
+function Home({ onNavigate }) {
+  const audioRef = React.useRef(null);
+  const [muted, setMuted] = React.useState(false);
+
+  React.useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.35;
+      audioRef.current.play().catch(() => {});
+    }
+  }, []);
+
+  const toggleMute = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = !muted;
+      setMuted(!muted);
+    }
+  };
+
+  const FEATURES = [
+    { num:'01', name:'Live Game Engine', desc:'Real-time scores, box scores, and live stat feeds from every NBA game. Auto-refreshes every 30 seconds.', stat:'30s', statLabel:'Refresh Rate' },
+    { num:'02', name:'AI Analysis', desc:'Claude-powered breakdowns of every matchup, player performance, and game slate. No filler. Just insight.', stat:'Live', statLabel:'AI Powered' },
+    { num:'03', name:'Coach Mode', desc:'Live in-game adjustments powered by actual box score data. Built for coaches who need answers in 20 seconds.', stat:'Live', statLabel:'Box Score Feed' },
+    { num:'04', name:'Player Intelligence', desc:'Deep dives across offense, defense, financials, injuries, and off-court factors. 8-stat grids with last-10 trends.', stat:'8', statLabel:'Stat Dimensions' },
+    { num:'05', name:'Front Office AI', desc:'Trade finder, roster analysis, and cap evaluation powered by live 2025 stats and AI front office reasoning.', stat:'2025', statLabel:'Live Season Data' },
+    { num:'06', name:'Export Ready', desc:'One-click PDF export on every analysis. Share reports with your staff, front office, or investors.', stat:'PDF', statLabel:'Export Format' },
+  ];
+
   return (
-    <div className="home-wrap">
-      <video className="home-video" src="bg.mp4" autoPlay loop muted playsInline/>
-      <div className="home-overlay"/>
-      <div className="home-grid-overlay"/>
-      <div className="home-center">
-        <div className="home-pivot-text">PIVOT</div>
+    <div>
+      <audio ref={audioRef} src="bg.mp3" loop preload="auto"/>
+      <button className="audio-btn" onClick={toggleMute}>{muted ? '\u25B6 SOUND ON' : '\u25A0 MUTE'}</button>
+
+      <div className="home-wrap">
+        <div className="home-overlay"/>
+        <div className="home-grid-overlay"/>
+        <div className="home-hero">
+          <div className="home-pivot-text">PIVOT</div>
+          <div className="home-tagline">
+            NBA intelligence for coaches, front offices, and analysts who refuse to guess.
+          </div>
+          <div className="home-ctas">
+            <button className="home-cta-primary" onClick={() => onNavigate('games')}>View Today's Games</button>
+            <button className="home-cta-secondary" onClick={() => onNavigate('players')}>Player Analysis</button>
+          </div>
+        </div>
+        <div className="home-scroll-hint">
+          <div className="home-scroll-line"/>
+          SCROLL TO EXPLORE
+        </div>
+      </div>
+
+      <div className="features-section">
+        <div className="features-label">Platform Features</div>
+        <div className="features-title">Built For Teams That Need an Edge</div>
+        <div className="features-grid">
+          {FEATURES.map(f => (
+            <div key={f.num} className="feature-card">
+              <div className="feature-num">{f.num}</div>
+              <div className="feature-name">{f.name}</div>
+              <div className="feature-desc">{f.desc}</div>
+              <div className="feature-stat">{f.stat}</div>
+              <div className="feature-stat-label">{f.statLabel}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="cta-section">
+        <div className="features-label">Get Started</div>
+        <div className="cta-title">Ready to Outpace the Game?</div>
+        <div className="cta-sub">Join coaches and front offices already using PIVOT to win.</div>
+        <div className="cta-btns">
+          <button className="home-cta-primary" onClick={() => onNavigate('games')}>Open Live Games</button>
+          <button className="home-cta-secondary" onClick={() => onNavigate('coach')}>Try Coach Mode</button>
+        </div>
+      </div>
+
+      <div className="home-footer">
+        <div className="home-footer-logo">PIVOT</div>
+        <div>\u00a9 2026 PIVOT. All rights reserved.</div>
+        <div>NBA Intelligence Platform</div>
       </div>
     </div>
   );
@@ -471,7 +599,7 @@ function GameModal({ game, onClose }) {
           <th>STL</th><th>BLK</th><th>FG</th><th>3P</th><th>FT</th><th>TO</th>
         </tr></thead>
         <tbody>
-          {players.map((p, i) => (
+          {players.map((p,i) => (
             <tr key={i}>
               <td>{p.player} <span style={{fontSize:9, color:'#444', marginLeft:6}}>{p.pos}</span></td>
               <td>{p.min}</td>
@@ -498,17 +626,17 @@ function GameModal({ game, onClose }) {
             <div className="modal-team-abbr">{game.visitor_team.abbreviation}</div>
           </div>
           <div className="modal-score-center">
-            {hasScore ? <div className="modal-score-big">{game.visitor_team_score} — {game.home_team_score}</div> : <div className="modal-score-vs">VS</div>}
-            <div className="modal-status">{type === 'live' ? <span className="live-badge">● LIVE</span> : label}</div>
+            {hasScore ? <div className="modal-score-big">{game.visitor_team_score} \u2014 {game.home_team_score}</div> : <div className="modal-score-vs">VS</div>}
+            <div className="modal-status">{type==='live' ? <span className="live-badge">\u25cf LIVE</span> : label}</div>
           </div>
           <div className="modal-team home">
             <div className="modal-team-city">{game.home_team.city}</div>
             <div className="modal-team-name">{game.home_team.name.split(' ').pop()}</div>
             <div className="modal-team-abbr">{game.home_team.abbreviation}</div>
           </div>
-          <button className="modal-close" onClick={onClose}>✕</button>
+          <button className="modal-close" onClick={onClose}>\u2715</button>
         </div>
-        <div className="modal-body">
+        <div>
           <div className="modal-tabs">
             <button className={`modal-tab ${activeTab==='boxscore'?'active':''}`} onClick={() => setActiveTab('boxscore')}>Box Score</button>
             <button className={`modal-tab ${activeTab==='info'?'active':''}`} onClick={() => setActiveTab('info')}>Game Info</button>
@@ -517,9 +645,7 @@ function GameModal({ game, onClose }) {
             <div className="box-score">
               {loading && <Loader label="Loading Box Score"/>}
               {!loading && (!boxScore || boxScore.total_players === 0) && (
-                <div style={{padding:'40px', fontSize:10, letterSpacing:4, color:'#333', textAlign:'center'}}>
-                  Box Score Not Available — Game May Not Have Started
-                </div>
+                <div style={{padding:'40px', fontSize:10, letterSpacing:4, color:'#333', textAlign:'center'}}>Box Score Not Available</div>
               )}
               {!loading && boxScore && boxScore.total_players > 0 && (
                 <>
@@ -584,7 +710,7 @@ function Games() {
         <button className="tb-btn" onClick={() => fetch_(today)}>Today</button>
         <button className="tb-btn" onClick={() => fetch_(getYesterday())}>Yesterday</button>
         <button className="tb-btn" onClick={() => fetch_(getTomorrow())}>Tomorrow</button>
-        {games.length > 0 && <div className="tb-info">{games.length} Games{hasLive?' · LIVE':''}</div>}
+        {games.length > 0 && <div className="tb-info">{games.length} Games{hasLive?' \u00b7 LIVE':''}</div>}
         {hasLive && <div className="tb-info" style={{color:'var(--green)', animation:'blink 1.5s infinite'}}>AUTO-REFRESH ON</div>}
       </div>
       {error && <div className="err">{error}</div>}
@@ -596,14 +722,14 @@ function Games() {
           const hasScore = g.home_team_score > 0 || g.visitor_team_score > 0;
           return (
             <div key={g.id} className="g-card" onClick={() => setSelectedGame(g)}>
-              <div className="g-time">{type==='live' ? <span className="live-badge">● LIVE</span> : label}</div>
+              <div className="g-time">{type==='live' ? <span className="live-badge">\u25cf LIVE</span> : label}</div>
               <div className="g-matchup">
                 <div className="g-team-a">
                   <div className="g-city">{g.visitor_team.city}</div>
                   <div className="g-name">{g.visitor_team.name.split(' ').pop()}</div>
                   <div className="g-abbr">{g.visitor_team.abbreviation}</div>
                 </div>
-                <div>{hasScore ? <div className="g-score">{g.visitor_team_score}—{g.home_team_score}</div> : <div className="g-vs">VS</div>}</div>
+                <div>{hasScore ? <div className="g-score">{g.visitor_team_score}\u2014{g.home_team_score}</div> : <div className="g-vs">VS</div>}</div>
                 <div className="g-team-h">
                   <div className="g-city">{g.home_team.city}</div>
                   <div className="g-name">{g.home_team.name.split(' ').pop()}</div>
@@ -612,7 +738,7 @@ function Games() {
               </div>
               <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
                 <span className={`g-badge ${type}`}>{label}</span>
-                <span style={{fontSize:9, letterSpacing:2, color:'#333'}}>CLICK FOR BOX SCORE →</span>
+                <span style={{fontSize:9, letterSpacing:2, color:'#333'}}>CLICK FOR BOX SCORE \u2192</span>
               </div>
             </div>
           );
@@ -662,13 +788,9 @@ function Analysis() {
         <div style={{maxWidth:900, padding:'48px 56px'}}>
           <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:32}}>
             <div style={{fontSize:10, letterSpacing:5, color:'var(--green)'}}>
-              {result.game_count} Games · {new Date().toLocaleDateString([], {month:'short', day:'numeric', year:'numeric'}).toUpperCase()}
+              {result.game_count} Games \u00b7 {new Date().toLocaleDateString([],{month:'short',day:'numeric',year:'numeric'}).toUpperCase()}
             </div>
-            <button className="export-btn" onClick={() => window.print()} style={{
-              background:'none', border:'1px solid var(--green)', color:'var(--green)',
-              fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700,
-              fontSize:9, letterSpacing:3, textTransform:'uppercase', padding:'8px 20px', cursor:'pointer'
-            }}>Export PDF →</button>
+            <button className="export-btn" onClick={() => window.print()} style={{background:'none', border:'1px solid var(--green)', color:'var(--green)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:9, letterSpacing:3, textTransform:'uppercase', padding:'8px 20px', cursor:'pointer'}}>Export PDF \u2192</button>
           </div>
           <div style={{fontSize:15, lineHeight:2.1, letterSpacing:.5, color:'var(--white)', whiteSpace:'pre-wrap', fontWeight:400, textTransform:'none'}}>
             {result.analysis}
@@ -687,7 +809,6 @@ function Players() {
   const [sectionLoading, setSectionLoading] = React.useState({});
   const [sectionData, setSectionData] = React.useState({});
   const [expandedSection, setExpandedSection] = React.useState(null);
-
   const [suggestions, setSuggestions] = React.useState([]);
   const [showSugg, setShowSugg] = React.useState(false);
 
@@ -725,16 +846,16 @@ function Players() {
   };
 
   const SECTIONS = [
-    { id: 'offense', label: 'Offense' },
-    { id: 'defense', label: 'Defense' },
-    { id: 'off_the_court', label: 'Off The Court' },
-    { id: 'injuries', label: 'Injuries' },
-    { id: 'financials', label: 'Financials' },
+    { id:'offense', label:'Offense' },
+    { id:'defense', label:'Defense' },
+    { id:'off_the_court', label:'Off The Court' },
+    { id:'injuries', label:'Injuries' },
+    { id:'financials', label:'Financials' },
   ];
 
-  const pct = (v) => v ? `${(v*100).toFixed(1)}%` : '—';
-  const trendStr = (r, s) => { if (r == null || s == null) return ''; const d = Math.round((r-s)*10)/10; if (d === 0) return '—'; return d > 0 ? `+${d}` : `${d}`; };
-  const trendColor = (r, s) => (r == null || s == null) ? '#444' : r >= s ? '#00FF41' : '#f33';
+  const pct = (v) => v ? `${(v*100).toFixed(1)}%` : '\u2014';
+  const trendStr = (r, s) => { if (r==null||s==null) return ''; const d=Math.round((r-s)*10)/10; if(d===0) return '\u2014'; return d>0?`+${d}`:`${d}`; };
+  const trendColor = (r, s) => (r==null||s==null)?'#444':r>=s?'#00FF41':'#f33';
 
   return (
     <div>
@@ -744,26 +865,26 @@ function Players() {
             placeholder="Search Player (e.g. LeBron James)..."
             value={query}
             onChange={e => { setQuery(e.target.value); fetchSuggestions(e.target.value); setShowSugg(true); }}
-            onKeyDown={e => { if (e.key==='Enter') { setShowSugg(false); search(); } if (e.key==='Escape') setShowSugg(false); }}
+            onKeyDown={e => { if(e.key==='Enter'){setShowSugg(false);search();} if(e.key==='Escape')setShowSugg(false); }}
             onBlur={() => setTimeout(() => setShowSugg(false), 150)}
           />
           {showSugg && suggestions.length > 0 && (
             <div style={{position:'absolute', top:'100%', left:0, right:0, background:'var(--black)', border:'1px solid var(--green)', borderTop:'none', zIndex:9999, maxHeight:320, overflowY:'auto'}}>
               {suggestions.map(p => (
                 <div key={p.id}
-                  onMouseDown={() => { const name = `${p.first_name} ${p.last_name}`; setQuery(name); setShowSugg(false); search(name); }}
+                  onMouseDown={() => { const name=`${p.first_name} ${p.last_name}`; setQuery(name); setShowSugg(false); search(name); }}
                   style={{padding:'12px 28px', cursor:'pointer', fontSize:12, letterSpacing:2, borderBottom:'1px solid var(--border)', display:'flex', justifyContent:'space-between', alignItems:'center'}}
                   onMouseEnter={e => e.currentTarget.style.background='var(--grey)'}
                   onMouseLeave={e => e.currentTarget.style.background=''}>
                   <span>{p.first_name} {p.last_name}</span>
-                  <span style={{fontSize:9, letterSpacing:3, color:'#555'}}>{p.team?.abbreviation||'—'} · {p.position||'—'}</span>
+                  <span style={{fontSize:9, letterSpacing:3, color:'#555'}}>{p.team?.abbreviation||'\u2014'} \u00b7 {p.position||'\u2014'}</span>
                 </div>
               ))}
             </div>
           )}
         </div>
         <button className="tb-btn" style={{fontSize:14, padding:'0 32px'}} onClick={() => { setShowSugg(false); search(); }} disabled={loading}>
-          {loading ? '...' : 'Search →'}
+          {loading ? '...' : 'Search \u2192'}
         </button>
       </div>
 
@@ -787,16 +908,11 @@ function Players() {
             <div style={{fontSize:'clamp(36px,5vw,72px)', letterSpacing:2, lineHeight:1}}>
               {result.player?.first_name} {result.player?.last_name}
             </div>
-            <button className="export-btn" onClick={() => window.print()} style={{
-              background:'none', border:'1px solid var(--green)', color:'var(--green)',
-              fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700,
-              fontSize:9, letterSpacing:3, textTransform:'uppercase', padding:'10px 20px', cursor:'pointer', marginTop:8
-            }}>Export PDF \u2192</button>
+            <button className="export-btn" onClick={() => window.print()} style={{background:'none', border:'1px solid var(--green)', color:'var(--green)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:9, letterSpacing:3, textTransform:'uppercase', padding:'10px 20px', cursor:'pointer', marginTop:8}}>Export PDF \u2192</button>
           </div>
           <div style={{fontSize:11, letterSpacing:4, color:'var(--green)', marginBottom:36}}>
             {result.player?.team?.name||'N/A'} \u00b7 {result.player?.position||'\u2014'} \u00b7 {result.season} Season \u00b7 {result.games_played} GP
           </div>
-
           {result.averages && (
             <div style={{marginBottom:32}}>
               <div style={{fontSize:8, letterSpacing:4, color:'#444', marginBottom:10}}>Season Averages</div>
@@ -814,7 +930,6 @@ function Players() {
               </div>
             </div>
           )}
-
           {result.last_10 && (
             <div style={{marginBottom:36}}>
               <div style={{fontSize:8, letterSpacing:4, color:'#444', marginBottom:10}}>Last 10 Games</div>
@@ -828,14 +943,13 @@ function Players() {
                     <div key={k} style={{textAlign:'center', padding:'16px 8px', borderRight:i<6?'1px solid var(--border)':'none'}}>
                       <div style={{fontSize:26, letterSpacing:-1, color:'var(--white)', lineHeight:1}}>{display||'\u2014'}</div>
                       <div style={{fontSize:8, letterSpacing:3, color:'#444', margin:'4px 0'}}>{l}</div>
-                      {val != null && avg != null && <div style={{fontSize:9, letterSpacing:1, color:trendColor(val,avg), fontWeight:400, textTransform:'none'}}>{trend}</div>}
+                      {val!=null && avg!=null && <div style={{fontSize:9, letterSpacing:1, color:trendColor(val,avg), fontWeight:400, textTransform:'none'}}>{trend}</div>}
                     </div>
                   );
                 })}
               </div>
             </div>
           )}
-
           {result.analysis && (
             <div style={{marginBottom:36}}>
               <div style={{fontSize:8, letterSpacing:4, color:'#444', marginBottom:14}}>Overview</div>
@@ -844,16 +958,11 @@ function Players() {
               </div>
             </div>
           )}
-
           <div style={{fontSize:8, letterSpacing:4, color:'#444', marginBottom:12}}>Deep Dive</div>
           <div style={{border:'2px solid var(--white)', marginBottom:48}}>
-            {SECTIONS.map((s, i) => (
+            {SECTIONS.map((s,i) => (
               <div key={s.id} style={{borderBottom:i<SECTIONS.length-1?'1px solid var(--border)':'none'}}>
-                <div onClick={() => loadSection(s.id)} style={{
-                  display:'flex', justifyContent:'space-between', alignItems:'center',
-                  padding:'20px 28px', cursor:'pointer',
-                  background:expandedSection===s.id?'var(--grey)':'var(--black)', transition:'background 0.1s',
-                }}>
+                <div onClick={() => loadSection(s.id)} style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'20px 28px', cursor:'pointer', background:expandedSection===s.id?'var(--grey)':'var(--black)', transition:'background 0.1s'}}>
                   <div style={{fontSize:12, letterSpacing:4}}>{s.label}</div>
                   <div style={{display:'flex', alignItems:'center', gap:16}}>
                     {sectionLoading[s.id] && <div style={{fontSize:9, letterSpacing:3, color:'var(--green)'}}>Analyzing...</div>}
@@ -874,13 +983,13 @@ function Players() {
               </div>
             ))}
           </div>
-
         </div>
       )}
       {!loading && result?.error && <div style={{fontSize:13, letterSpacing:3, color:'#444', padding:'40px 56px'}}>{result.error}</div>}
     </div>
   );
 }
+
 function FrontOffice() {
   const [subTab, setSubTab] = React.useState('trade');
   const [loading, setLoading] = React.useState(false);
@@ -898,13 +1007,10 @@ function FrontOffice() {
   const removeItem = (setter, arr, i) => setter(arr.filter((_,j)=>j!==i));
 
   const runTrade = async () => {
-    if (!teamA || !teamB) return;
+    if (!teamA||!teamB) return;
     setLoading(true); setError(null); setResult(null);
     try {
-      const r = await fetch(`${API}/frontoffice/trade`, {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ team_a:teamA, team_b:teamB, team_a_gives:teamAGives.filter(Boolean), team_b_gives:teamBGives.filter(Boolean), context:tradeContext })
-      });
+      const r = await fetch(`${API}/frontoffice/trade`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ team_a:teamA, team_b:teamB, team_a_gives:teamAGives.filter(Boolean), team_b_gives:teamBGives.filter(Boolean), context:tradeContext }) });
       if (!r.ok) throw new Error(await r.text());
       setResult(await r.json());
     } catch(e) { setError(e.message); } finally { setLoading(false); }
@@ -947,11 +1053,11 @@ function FrontOffice() {
                     <label style={lbl}>Team A Sends</label>
                     {teamAGives.map((item,i) => (
                       <div key={i} style={{display:'flex', gap:6, marginBottom:6}}>
-                        <input style={{...inp, flex:1}} placeholder="Player or Pick..." value={item} onChange={e=>updateItem(setTeamAGives, teamAGives, i, e.target.value)}/>
-                        {teamAGives.length > 1 && <button style={{...addBtn, padding:'6px 10px', color:'#f33', borderColor:'rgba(255,50,50,.3)'}} onClick={()=>removeItem(setTeamAGives, teamAGives, i)}>✕</button>}
+                        <input style={{...inp, flex:1}} placeholder="Player or Pick..." value={item} onChange={e=>updateItem(setTeamAGives,teamAGives,i,e.target.value)}/>
+                        {teamAGives.length>1 && <button style={{...addBtn, padding:'6px 10px', color:'#f33', borderColor:'rgba(255,50,50,.3)'}} onClick={()=>removeItem(setTeamAGives,teamAGives,i)}>\u2715</button>}
                       </div>
                     ))}
-                    <button style={addBtn} onClick={()=>addItem(setTeamAGives, teamAGives)}>+ Add Player / Pick</button>
+                    <button style={addBtn} onClick={()=>addItem(setTeamAGives,teamAGives)}>+ Add Player / Pick</button>
                   </div>
                 </div>
                 <div>
@@ -961,23 +1067,21 @@ function FrontOffice() {
                     <label style={lbl}>Team B Sends</label>
                     {teamBGives.map((item,i) => (
                       <div key={i} style={{display:'flex', gap:6, marginBottom:6}}>
-                        <input style={{...inp, flex:1}} placeholder="Player or Pick..." value={item} onChange={e=>updateItem(setTeamBGives, teamBGives, i, e.target.value)}/>
-                        {teamBGives.length > 1 && <button style={{...addBtn, padding:'6px 10px', color:'#f33', borderColor:'rgba(255,50,50,.3)'}} onClick={()=>removeItem(setTeamBGives, teamBGives, i)}>✕</button>}
+                        <input style={{...inp, flex:1}} placeholder="Player or Pick..." value={item} onChange={e=>updateItem(setTeamBGives,teamBGives,i,e.target.value)}/>
+                        {teamBGives.length>1 && <button style={{...addBtn, padding:'6px 10px', color:'#f33', borderColor:'rgba(255,50,50,.3)'}} onClick={()=>removeItem(setTeamBGives,teamBGives,i)}>\u2715</button>}
                       </div>
                     ))}
-                    <button style={addBtn} onClick={()=>addItem(setTeamBGives, teamBGives)}>+ Add Player / Pick</button>
+                    <button style={addBtn} onClick={()=>addItem(setTeamBGives,teamBGives)}>+ Add Player / Pick</button>
                   </div>
                 </div>
               </div>
               <div style={{marginBottom:24}}>
                 <label style={lbl}>Additional Context (Optional)</label>
-                <textarea style={{...inp, height:80, resize:'vertical', fontWeight:400, textTransform:'none', fontSize:12}}
-                  placeholder="Cap considerations, injury history, team needs..."
-                  value={tradeContext} onChange={e=>setTradeContext(e.target.value)}/>
+                <textarea style={{...inp, height:80, resize:'vertical', fontWeight:400, textTransform:'none', fontSize:12}} placeholder="Cap considerations, injury history, team needs..." value={tradeContext} onChange={e=>setTradeContext(e.target.value)}/>
               </div>
               <button onClick={runTrade} disabled={loading||!teamA||!teamB}
                 style={{background:loading?'#222':'var(--green)', border:'none', color:loading?'#444':'var(--black)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:12, letterSpacing:4, textTransform:'uppercase', padding:'16px 40px', cursor:'pointer', transition:'all 0.1s'}}>
-                {loading ? 'Analyzing Trade...' : 'Evaluate Trade →'}
+                {loading ? 'Analyzing Trade...' : 'Evaluate Trade \u2192'}
               </button>
             </div>
           )}
@@ -986,24 +1090,20 @@ function FrontOffice() {
               <div style={{fontSize:'clamp(28px,3vw,48px)', letterSpacing:6, marginBottom:32}}>Roster & Cap</div>
               <label style={lbl}>Team Name</label>
               <div style={{display:'flex', gap:0, marginBottom:24}}>
-                <input style={{...inp, flex:1}} placeholder="Lakers, Celtics, Warriors..."
-                  value={rosterTeam} onChange={e=>setRosterTeam(e.target.value)}
-                  onKeyDown={e=>e.key==='Enter'&&runRoster()}/>
+                <input style={{...inp, flex:1}} placeholder="Lakers, Celtics, Warriors..." value={rosterTeam} onChange={e=>setRosterTeam(e.target.value)} onKeyDown={e=>e.key==='Enter'&&runRoster()}/>
                 <button onClick={runRoster} disabled={loading||!rosterTeam}
                   style={{background:loading?'#222':'var(--green)', border:'none', color:loading?'#444':'var(--black)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:11, letterSpacing:3, textTransform:'uppercase', padding:'0 28px', cursor:'pointer'}}>
-                  {loading ? '...' : 'Analyze →'}
+                  {loading ? '...' : 'Analyze \u2192'}
                 </button>
               </div>
-              <div style={{fontSize:10, letterSpacing:3, color:'#333', lineHeight:2}}>
-                Full front office breakdown: roster evaluation, cap situation, trade targets, and recommended moves.
-              </div>
+              <div style={{fontSize:10, letterSpacing:3, color:'#333', lineHeight:2}}>Full front office breakdown: roster evaluation, cap situation, trade targets, and recommended moves.</div>
             </div>
           )}
         </div>
         <div style={{padding:'40px 48px', overflowY:'auto', background:'var(--grey)'}}>
           {!result && !loading && !error && (
             <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'50vh', gap:16}}>
-              <div style={{fontSize:40, color:'#1a1a1a'}}>◈</div>
+              <div style={{fontSize:40, color:'#1a1a1a'}}>\u25c8</div>
               <div style={{fontSize:9, letterSpacing:4, color:'#333', textAlign:'center'}}>{subTab==='trade'?'Build a Trade and Evaluate':'Enter a Team Name and Analyze'}</div>
             </div>
           )}
@@ -1019,7 +1119,7 @@ function FrontOffice() {
               {result.player_stats && Object.keys(result.player_stats).length > 0 && (
                 <div style={{marginBottom:28, padding:'16px 20px', border:'1px solid var(--border)', background:'var(--black)'}}>
                   <div style={{fontSize:8, letterSpacing:4, color:'#444', marginBottom:12}}>Live Stats Retrieved</div>
-                  {Object.entries(result.player_stats).map(([name, stat]) => (
+                  {Object.entries(result.player_stats).map(([name,stat]) => (
                     <div key={name} style={{display:'flex', justifyContent:'space-between', padding:'6px 0', borderBottom:'1px solid #141414', fontSize:11, letterSpacing:1}}>
                       <span style={{fontWeight:700}}>{name}</span>
                       <span style={{color:'var(--green)', fontSize:10}}>{stat}</span>
@@ -1028,11 +1128,7 @@ function FrontOffice() {
                 </div>
               )}
               <div style={{display:'flex', justifyContent:'flex-end', marginBottom:20}}>
-                <button className="export-btn" onClick={() => window.print()} style={{
-                  background:'none', border:'1px solid var(--green)', color:'var(--green)',
-                  fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700,
-                  fontSize:9, letterSpacing:3, textTransform:'uppercase', padding:'8px 20px', cursor:'pointer'
-                }}>Export PDF →</button>
+                <button className="export-btn" onClick={() => window.print()} style={{background:'none', border:'1px solid var(--green)', color:'var(--green)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:9, letterSpacing:3, textTransform:'uppercase', padding:'8px 20px', cursor:'pointer'}}>Export PDF \u2192</button>
               </div>
               <div style={{fontSize:15, lineHeight:2.1, letterSpacing:.5, color:'var(--white)', whiteSpace:'pre-wrap', fontWeight:400, textTransform:'none'}}>
                 {result.analysis}
@@ -1103,11 +1199,9 @@ function CoachMode() {
             return (
               <div key={g.id} onClick={() => { setSelectedGame(g); setMyTeam(''); }}
                 style={{ padding:'12px 14px', marginBottom:4, cursor:'pointer', border:sel?'1px solid var(--green)':'1px solid var(--border)', background:sel?'rgba(0,255,65,0.05)':'var(--black)', transition:'all 0.1s' }}>
-                <div style={{fontSize:8, letterSpacing:3, color:type==='live'?'var(--green)':'#555', marginBottom:4}}>{type==='live'?'● LIVE':label}</div>
+                <div style={{fontSize:8, letterSpacing:3, color:type==='live'?'var(--green)':'#555', marginBottom:4}}>{type==='live'?'\u25cf LIVE':label}</div>
                 <div style={{fontSize:13, letterSpacing:1}}>{g.visitor_team.abbreviation} @ {g.home_team.abbreviation}</div>
-                {(g.home_team_score > 0 || g.visitor_team_score > 0) && (
-                  <div style={{fontSize:11, color:'var(--green)', letterSpacing:2, marginTop:2}}>{g.visitor_team_score} — {g.home_team_score}</div>
-                )}
+                {(g.home_team_score > 0 || g.visitor_team_score > 0) && <div style={{fontSize:11, color:'var(--green)', letterSpacing:2, marginTop:2}}>{g.visitor_team_score} \u2014 {g.home_team_score}</div>}
               </div>
             );
           })}
@@ -1156,22 +1250,17 @@ function CoachMode() {
               value={situation} onChange={e=>setSituation(e.target.value)}/>
             <button onClick={run} disabled={loading||!myTeam}
               style={{ width:'100%', padding:'14px', fontSize:11, letterSpacing:4, fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, textTransform:'uppercase', cursor:'pointer', border:'none', transition:'all 0.1s', background:loading?'#222':'var(--green)', color:loading?'#444':'var(--black)' }}>
-              {loading ? 'Thinking...' : mode==='adjust' ? 'Get Adjustments →' : 'Draw Play →'}
+              {loading ? 'Thinking...' : mode==='adjust' ? 'Get Adjustments \u2192' : 'Draw Play \u2192'}
             </button>
           </div>
         )}
-        {!selectedGame && (
-          <div style={{padding:'32px 20px', fontSize:9, letterSpacing:3, color:'#333', lineHeight:2}}>
-            Select a game to activate coach mode. Works best with live games. PIVOT reads the live box score and delivers real adjustments based on what's actually happening on the court.
-          </div>
-        )}
+        {!selectedGame && <div style={{padding:'32px 20px', fontSize:9, letterSpacing:3, color:'#333', lineHeight:2}}>Select a game to activate coach mode. Works best with live games. PIVOT reads the live box score and delivers real adjustments.</div>}
       </div>
-
       <div style={{borderRight:'1px solid var(--border)', overflowY:'auto'}}>
         {!result && !loading && !error && (
           <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'70vh', gap:16}}>
             <div style={{fontSize:'clamp(40px,6vw,80px)', letterSpacing:12, color:'var(--white)', lineHeight:1, textAlign:'center'}}>COACH<br/>MODE</div>
-            <div style={{fontSize:9, letterSpacing:4, color:'#333', textAlign:'center', maxWidth:300, lineHeight:2}}>Select a game, pick your team, describe the situation, get real-time coaching adjustments from PIVOT</div>
+            <div style={{fontSize:9, letterSpacing:4, color:'#333', textAlign:'center', maxWidth:300, lineHeight:2}}>Select a game, pick your team, describe the situation, get real-time coaching from PIVOT</div>
           </div>
         )}
         {loading && (
@@ -1184,7 +1273,7 @@ function CoachMode() {
         {!loading && result && (
           <div style={{padding:'40px 48px'}}>
             <div style={{display:'flex', gap:12, alignItems:'center', marginBottom:28}}>
-              <div style={{fontSize:9, letterSpacing:4, color:'var(--green)'}}>{result.mode==='timeout'?'⊙ PLAY DRAWN':'⊙ ADJUSTMENTS READY'}</div>
+              <div style={{fontSize:9, letterSpacing:4, color:'var(--green)'}}>{result.mode==='timeout'?'\u2299 PLAY DRAWN':'\u2299 ADJUSTMENTS READY'}</div>
               <div style={{fontSize:9, letterSpacing:2, color:'#333'}}>{result.my_team}</div>
             </div>
             <div style={{fontSize:15, lineHeight:2.2, letterSpacing:.5, color:'var(--white)', whiteSpace:'pre-wrap', fontWeight:400, textTransform:'none'}}>
@@ -1193,12 +1282,11 @@ function CoachMode() {
           </div>
         )}
       </div>
-
       <div style={{overflowY:'auto', background:'var(--grey)'}}>
         {selectedGame && boxScore && boxScore.total_players > 0 && (
           <div style={{borderBottom:'1px solid var(--border)'}}>
             <div style={{padding:'14px 20px', fontSize:8, letterSpacing:4, color:'#444', borderBottom:'1px solid var(--border)'}}>
-              Live Box — {selectedGame.visitor_team.abbreviation} @ {selectedGame.home_team.abbreviation}
+              Live Box \u2014 {selectedGame.visitor_team.abbreviation} @ {selectedGame.home_team.abbreviation}
             </div>
             <div style={{padding:'0 16px 16px'}}>
               {['away_players','home_players'].map(key => {
@@ -1244,7 +1332,7 @@ function App() {
   const [scrolled, setScrolled] = React.useState(false);
 
   React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -1253,19 +1341,22 @@ function App() {
 
   return (
     <>
-      <nav className={scrolled || !isHome ? 'scrolled' : ''} style={!isHome ? {background:'var(--black)', borderBottom:'1px solid var(--border)'} : {}}>
+      <nav className={scrolled || !isHome ? 'solid' : ''}>
+        <div className="nav-logo" onClick={() => setTab('home')}>PIVOT</div>
         <div className="nav-tabs">
           {[['games','Games'],['players','Players'],['frontoffice','Front Office'],['coach','Coach Mode']].map(([id,label]) => (
             <button key={id} className={`nav-tab ${tab===id?'active':''}`} onClick={() => setTab(id)}>{label}</button>
           ))}
         </div>
+        <button className="nav-cta" onClick={() => setTab('players')}>Try Free</button>
       </nav>
-      <div style={{paddingTop:isHome?0:64, paddingBottom:40}}>
-        {tab==='home'        && <Home/>}
-        {tab==='games'       && <Games/>}
-        {tab==='players'     && <Players/>}
-        {tab==='frontoffice' && <FrontOffice/>}
-        {tab==='coach'       && <CoachMode/>}
+      <div style={{paddingTop: isHome ? 0 : 70, paddingBottom: 40}}>
+        {tab === 'home'        && <Home onNavigate={setTab}/>}
+        {tab === 'games'       && <Games/>}
+        {tab === 'players'     && <Players/>}
+        {tab === 'frontoffice' && <FrontOffice/>}
+        {tab === 'coach'       && <CoachMode/>}
+        {tab === 'analysis'    && <Analysis/>}
       </div>
       <Ticker/>
     </>
