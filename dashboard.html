@@ -436,7 +436,7 @@ function Ticker() {
         if (!data?.games?.length) return;
         setItems(data.games.map(g => {
           const hasScore = g.home_team_score > 0 || g.visitor_team_score > 0;
-          if (hasScore) return `${g.visitor_team.abbreviation} ${g.visitor_team_score} \u2014 ${g.home_team_score} ${g.home_team.abbreviation}`;
+          if (hasScore) return `${g.visitor_team.abbreviation} ${g.visitor_team_score} — ${g.home_team_score} ${g.home_team.abbreviation}`;
           try {
             const d = new Date(g.status);
             const t = isNaN(d) ? g.status : d.toLocaleTimeString([], { hour:'numeric', minute:'2-digit', timeZoneName:'short' });
@@ -445,7 +445,7 @@ function Ticker() {
         }));
       }).catch(()=>{});
   }, []);
-  const fallback = ['PIVOT \u2014 NBA INTELLIGENCE PLATFORM', "TODAY'S SLATE NOW LOADING", 'GAMES \u00b7 ANALYSIS \u00b7 PLAYERS', 'POWERED BY PIVOT'];
+  const fallback = ['PIVOT — NBA INTELLIGENCE PLATFORM', "TODAY'S SLATE NOW LOADING", 'GAMES · ANALYSIS · PLAYERS', 'POWERED BY PIVOT'];
   const display = items.length ? items : fallback;
   const doubled = [...display, ...display];
   return (
@@ -456,7 +456,7 @@ function Ticker() {
           {doubled.map((item,i) => (
             <React.Fragment key={i}>
               <span className="ticker-item">{item}</span>
-              <span className="ticker-sep">\u25c6</span>
+              <span className="ticker-sep">◆</span>
             </React.Fragment>
           ))}
         </div>
@@ -474,31 +474,22 @@ function Home({ onNavigate }) {
     { num:'05', name:'Front Office AI', desc:'Trade finder, roster analysis, and cap evaluation powered by live 2025 stats and AI front office reasoning.', stat:'2025', statLabel:'Live Season Data' },
     { num:'06', name:'Export Ready', desc:'One-click PDF export on every analysis. Share reports with your staff, front office, or investors.', stat:'PDF', statLabel:'Export Format' },
   ];
-
   return (
     <div>
       <div className="home-wrap">
-        <video className="home-video"
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260309_042944_4a2205b7-b061-490a-852b-92d9e9955ce9.mp4"
-          autoPlay loop muted playsInline/>
+        <video className="home-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260309_042944_4a2205b7-b061-490a-852b-92d9e9955ce9.mp4" autoPlay loop muted playsInline/>
         <div className="home-overlay"/>
         <div className="home-grid-overlay"/>
         <div className="home-hero">
           <div className="home-pivot-text">PIVOT</div>
-          <div className="home-tagline">
-            NBA intelligence for coaches, front offices, and analysts who refuse to guess.
-          </div>
+          <div className="home-tagline">NBA intelligence for coaches, front offices, and analysts who refuse to guess.</div>
           <div className="home-ctas">
             <button className="home-cta-primary" onClick={() => onNavigate('games')}>View Today's Games</button>
             <button className="home-cta-secondary" onClick={() => onNavigate('players')}>Player Analysis</button>
           </div>
         </div>
-        <div className="home-scroll-hint">
-          <div className="home-scroll-line"/>
-          SCROLL TO EXPLORE
-        </div>
+        <div className="home-scroll-hint"><div className="home-scroll-line"/>SCROLL TO EXPLORE</div>
       </div>
-
       <div className="features-section">
         <div className="features-label">Platform Features</div>
         <div className="features-title">Built For Teams That Need an Edge</div>
@@ -514,7 +505,6 @@ function Home({ onNavigate }) {
           ))}
         </div>
       </div>
-
       <div className="cta-section">
         <div className="features-label">Get Started</div>
         <div className="cta-title">Ready to Outpace the Game?</div>
@@ -524,10 +514,9 @@ function Home({ onNavigate }) {
           <button className="home-cta-secondary" onClick={() => onNavigate('coach')}>Try Coach Mode</button>
         </div>
       </div>
-
       <div className="home-footer">
         <div className="home-footer-logo">PIVOT</div>
-        <div>\u00a9 2026 PIVOT. All rights reserved.</div>
+        <div>© 2026 PIVOT. All rights reserved.</div>
         <div>NBA Intelligence Platform</div>
       </div>
     </div>
@@ -596,15 +585,15 @@ function GameModal({ game, onClose }) {
             <div className="modal-team-abbr">{game.visitor_team.abbreviation}</div>
           </div>
           <div className="modal-score-center">
-            {hasScore ? <div className="modal-score-big">{game.visitor_team_score} \u2014 {game.home_team_score}</div> : <div className="modal-score-vs">VS</div>}
-            <div className="modal-status">{type==='live' ? <span className="live-badge">\u25cf LIVE</span> : label}</div>
+            {hasScore ? <div className="modal-score-big">{game.visitor_team_score} — {game.home_team_score}</div> : <div className="modal-score-vs">VS</div>}
+            <div className="modal-status">{type==='live' ? <span className="live-badge">● LIVE</span> : label}</div>
           </div>
           <div className="modal-team home">
             <div className="modal-team-city">{game.home_team.city}</div>
             <div className="modal-team-name">{game.home_team.name.split(' ').pop()}</div>
             <div className="modal-team-abbr">{game.home_team.abbreviation}</div>
           </div>
-          <button className="modal-close" onClick={onClose}>\u2715</button>
+          <button className="modal-close" onClick={onClose}>✕</button>
         </div>
         <div>
           <div className="modal-tabs">
@@ -680,7 +669,7 @@ function Games() {
         <button className="tb-btn" onClick={() => fetch_(today)}>Today</button>
         <button className="tb-btn" onClick={() => fetch_(getYesterday())}>Yesterday</button>
         <button className="tb-btn" onClick={() => fetch_(getTomorrow())}>Tomorrow</button>
-        {games.length > 0 && <div className="tb-info">{games.length} Games{hasLive?' \u00b7 LIVE':''}</div>}
+        {games.length > 0 && <div className="tb-info">{games.length} Games{hasLive?' · LIVE':''}</div>}
         {hasLive && <div className="tb-info" style={{color:'var(--green)', animation:'blink 1.5s infinite'}}>AUTO-REFRESH ON</div>}
       </div>
       {error && <div className="err">{error}</div>}
@@ -692,14 +681,14 @@ function Games() {
           const hasScore = g.home_team_score > 0 || g.visitor_team_score > 0;
           return (
             <div key={g.id} className="g-card" onClick={() => setSelectedGame(g)}>
-              <div className="g-time">{type==='live' ? <span className="live-badge">\u25cf LIVE</span> : label}</div>
+              <div className="g-time">{type==='live' ? <span className="live-badge">● LIVE</span> : label}</div>
               <div className="g-matchup">
                 <div className="g-team-a">
                   <div className="g-city">{g.visitor_team.city}</div>
                   <div className="g-name">{g.visitor_team.name.split(' ').pop()}</div>
                   <div className="g-abbr">{g.visitor_team.abbreviation}</div>
                 </div>
-                <div>{hasScore ? <div className="g-score">{g.visitor_team_score}\u2014{g.home_team_score}</div> : <div className="g-vs">VS</div>}</div>
+                <div>{hasScore ? <div className="g-score">{g.visitor_team_score}—{g.home_team_score}</div> : <div className="g-vs">VS</div>}</div>
                 <div className="g-team-h">
                   <div className="g-city">{g.home_team.city}</div>
                   <div className="g-name">{g.home_team.name.split(' ').pop()}</div>
@@ -708,7 +697,7 @@ function Games() {
               </div>
               <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
                 <span className={`g-badge ${type}`}>{label}</span>
-                <span style={{fontSize:9, letterSpacing:2, color:'#333'}}>CLICK FOR BOX SCORE \u2192</span>
+                <span style={{fontSize:9, letterSpacing:2, color:'#333'}}>CLICK FOR BOX SCORE →</span>
               </div>
             </div>
           );
@@ -758,9 +747,9 @@ function Analysis() {
         <div style={{maxWidth:900, padding:'48px 56px'}}>
           <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:32}}>
             <div style={{fontSize:10, letterSpacing:5, color:'var(--green)'}}>
-              {result.game_count} Games \u00b7 {new Date().toLocaleDateString([],{month:'short',day:'numeric',year:'numeric'}).toUpperCase()}
+              {result.game_count} Games · {new Date().toLocaleDateString([],{month:'short',day:'numeric',year:'numeric'}).toUpperCase()}
             </div>
-            <button className="export-btn" onClick={() => window.print()} style={{background:'none', border:'1px solid var(--green)', color:'var(--green)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:9, letterSpacing:3, textTransform:'uppercase', padding:'8px 20px', cursor:'pointer'}}>Export PDF \u2192</button>
+            <button className="export-btn" onClick={() => window.print()} style={{background:'none', border:'1px solid var(--green)', color:'var(--green)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:9, letterSpacing:3, textTransform:'uppercase', padding:'8px 20px', cursor:'pointer'}}>Export PDF →</button>
           </div>
           <div style={{fontSize:15, lineHeight:2.1, letterSpacing:.5, color:'var(--white)', whiteSpace:'pre-wrap', fontWeight:400, textTransform:'none'}}>
             {result.analysis}
@@ -823,8 +812,8 @@ function Players() {
     { id:'financials', label:'Financials' },
   ];
 
-  const pct = (v) => v ? `${(v*100).toFixed(1)}%` : '\u2014';
-  const trendStr = (r, s) => { if (r==null||s==null) return ''; const d=Math.round((r-s)*10)/10; if(d===0) return '\u2014'; return d>0?`+${d}`:`${d}`; };
+  const pct = (v) => v ? `${(v*100).toFixed(1)}%` : '—';
+  const trendStr = (r, s) => { if (r==null||s==null) return ''; const d=Math.round((r-s)*10)/10; if(d===0) return '—'; return d>0?`+${d}`:`${d}`; };
   const trendColor = (r, s) => (r==null||s==null)?'#444':r>=s?'#00FF41':'#f33';
 
   return (
@@ -847,14 +836,14 @@ function Players() {
                   onMouseEnter={e => e.currentTarget.style.background='var(--grey)'}
                   onMouseLeave={e => e.currentTarget.style.background=''}>
                   <span>{p.first_name} {p.last_name}</span>
-                  <span style={{fontSize:9, letterSpacing:3, color:'#555'}}>{p.team?.abbreviation||'\u2014'} \u00b7 {p.position||'\u2014'}</span>
+                  <span style={{fontSize:9, letterSpacing:3, color:'#555'}}>{p.team?.abbreviation||'—'} · {p.position||'—'}</span>
                 </div>
               ))}
             </div>
           )}
         </div>
         <button className="tb-btn" style={{fontSize:14, padding:'0 32px'}} onClick={() => { setShowSugg(false); search(); }} disabled={loading}>
-          {loading ? '...' : 'Search \u2192'}
+          {loading ? '...' : 'Search →'}
         </button>
       </div>
       {!loading && !result && !error && (
@@ -876,10 +865,10 @@ function Players() {
             <div style={{fontSize:'clamp(36px,5vw,72px)', letterSpacing:2, lineHeight:1}}>
               {result.player?.first_name} {result.player?.last_name}
             </div>
-            <button className="export-btn" onClick={() => window.print()} style={{background:'none', border:'1px solid var(--green)', color:'var(--green)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:9, letterSpacing:3, textTransform:'uppercase', padding:'10px 20px', cursor:'pointer', marginTop:8}}>Export PDF \u2192</button>
+            <button className="export-btn" onClick={() => window.print()} style={{background:'none', border:'1px solid var(--green)', color:'var(--green)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:9, letterSpacing:3, textTransform:'uppercase', padding:'10px 20px', cursor:'pointer', marginTop:8}}>Export PDF →</button>
           </div>
           <div style={{fontSize:11, letterSpacing:4, color:'var(--green)', marginBottom:36}}>
-            {result.player?.team?.name||'N/A'} \u00b7 {result.player?.position||'\u2014'} \u00b7 {result.season} Season \u00b7 {result.games_played} GP
+            {result.player?.team?.name||'N/A'} · {result.player?.position||'—'} · {result.season} Season · {result.games_played} GP
           </div>
           {result.averages && (
             <div style={{marginBottom:32}}>
@@ -909,7 +898,7 @@ function Players() {
                   const trend = isPct ? trendStr(val*100, avg*100) : trendStr(val, avg);
                   return (
                     <div key={k} style={{textAlign:'center', padding:'16px 8px', borderRight:i<6?'1px solid var(--border)':'none'}}>
-                      <div style={{fontSize:26, letterSpacing:-1, color:'var(--white)', lineHeight:1}}>{display||'\u2014'}</div>
+                      <div style={{fontSize:26, letterSpacing:-1, color:'var(--white)', lineHeight:1}}>{display||'—'}</div>
                       <div style={{fontSize:8, letterSpacing:3, color:'#444', margin:'4px 0'}}>{l}</div>
                       {val!=null && avg!=null && <div style={{fontSize:9, letterSpacing:1, color:trendColor(val,avg), fontWeight:400, textTransform:'none'}}>{trend}</div>}
                     </div>
@@ -1022,7 +1011,7 @@ function FrontOffice() {
                     {teamAGives.map((item,i) => (
                       <div key={i} style={{display:'flex', gap:6, marginBottom:6}}>
                         <input style={{...inp, flex:1}} placeholder="Player or Pick..." value={item} onChange={e=>updateItem(setTeamAGives,teamAGives,i,e.target.value)}/>
-                        {teamAGives.length>1 && <button style={{...addBtn, padding:'6px 10px', color:'#f33', borderColor:'rgba(255,50,50,.3)'}} onClick={()=>removeItem(setTeamAGives,teamAGives,i)}>\u2715</button>}
+                        {teamAGives.length>1 && <button style={{...addBtn, padding:'6px 10px', color:'#f33', borderColor:'rgba(255,50,50,.3)'}} onClick={()=>removeItem(setTeamAGives,teamAGives,i)}>✕</button>}
                       </div>
                     ))}
                     <button style={addBtn} onClick={()=>addItem(setTeamAGives,teamAGives)}>+ Add Player / Pick</button>
@@ -1036,7 +1025,7 @@ function FrontOffice() {
                     {teamBGives.map((item,i) => (
                       <div key={i} style={{display:'flex', gap:6, marginBottom:6}}>
                         <input style={{...inp, flex:1}} placeholder="Player or Pick..." value={item} onChange={e=>updateItem(setTeamBGives,teamBGives,i,e.target.value)}/>
-                        {teamBGives.length>1 && <button style={{...addBtn, padding:'6px 10px', color:'#f33', borderColor:'rgba(255,50,50,.3)'}} onClick={()=>removeItem(setTeamBGives,teamBGives,i)}>\u2715</button>}
+                        {teamBGives.length>1 && <button style={{...addBtn, padding:'6px 10px', color:'#f33', borderColor:'rgba(255,50,50,.3)'}} onClick={()=>removeItem(setTeamBGives,teamBGives,i)}>✕</button>}
                       </div>
                     ))}
                     <button style={addBtn} onClick={()=>addItem(setTeamBGives,teamBGives)}>+ Add Player / Pick</button>
@@ -1049,7 +1038,7 @@ function FrontOffice() {
               </div>
               <button onClick={runTrade} disabled={loading||!teamA||!teamB}
                 style={{background:loading?'#222':'var(--green)', border:'none', color:loading?'#444':'var(--black)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:12, letterSpacing:4, textTransform:'uppercase', padding:'16px 40px', cursor:'pointer', transition:'all 0.1s'}}>
-                {loading ? 'Analyzing Trade...' : 'Evaluate Trade \u2192'}
+                {loading ? 'Analyzing Trade...' : 'Evaluate Trade →'}
               </button>
             </div>
           )}
@@ -1061,7 +1050,7 @@ function FrontOffice() {
                 <input style={{...inp, flex:1}} placeholder="Lakers, Celtics, Warriors..." value={rosterTeam} onChange={e=>setRosterTeam(e.target.value)} onKeyDown={e=>e.key==='Enter'&&runRoster()}/>
                 <button onClick={runRoster} disabled={loading||!rosterTeam}
                   style={{background:loading?'#222':'var(--green)', border:'none', color:loading?'#444':'var(--black)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:11, letterSpacing:3, textTransform:'uppercase', padding:'0 28px', cursor:'pointer'}}>
-                  {loading ? '...' : 'Analyze \u2192'}
+                  {loading ? '...' : 'Analyze →'}
                 </button>
               </div>
               <div style={{fontSize:10, letterSpacing:3, color:'#333', lineHeight:2}}>Full front office breakdown: roster evaluation, cap situation, trade targets, and recommended moves.</div>
@@ -1071,7 +1060,7 @@ function FrontOffice() {
         <div style={{padding:'40px 48px', overflowY:'auto', background:'var(--grey)'}}>
           {!result && !loading && !error && (
             <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'50vh', gap:16}}>
-              <div style={{fontSize:40, color:'#1a1a1a'}}>\u25c8</div>
+              <div style={{fontSize:40, color:'#1a1a1a'}}>◈</div>
               <div style={{fontSize:9, letterSpacing:4, color:'#333', textAlign:'center'}}>{subTab==='trade'?'Build a Trade and Evaluate':'Enter a Team Name and Analyze'}</div>
             </div>
           )}
@@ -1096,7 +1085,7 @@ function FrontOffice() {
                 </div>
               )}
               <div style={{display:'flex', justifyContent:'flex-end', marginBottom:20}}>
-                <button className="export-btn" onClick={() => window.print()} style={{background:'none', border:'1px solid var(--green)', color:'var(--green)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:9, letterSpacing:3, textTransform:'uppercase', padding:'8px 20px', cursor:'pointer'}}>Export PDF \u2192</button>
+                <button className="export-btn" onClick={() => window.print()} style={{background:'none', border:'1px solid var(--green)', color:'var(--green)', fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, fontSize:9, letterSpacing:3, textTransform:'uppercase', padding:'8px 20px', cursor:'pointer'}}>Export PDF →</button>
               </div>
               <div style={{fontSize:15, lineHeight:2.1, letterSpacing:.5, color:'var(--white)', whiteSpace:'pre-wrap', fontWeight:400, textTransform:'none'}}>
                 {result.analysis}
@@ -1167,9 +1156,9 @@ function CoachMode() {
             return (
               <div key={g.id} onClick={() => { setSelectedGame(g); setMyTeam(''); }}
                 style={{ padding:'12px 14px', marginBottom:4, cursor:'pointer', border:sel?'1px solid var(--green)':'1px solid var(--border)', background:sel?'rgba(0,255,65,0.05)':'var(--black)', transition:'all 0.1s' }}>
-                <div style={{fontSize:8, letterSpacing:3, color:type==='live'?'var(--green)':'#555', marginBottom:4}}>{type==='live'?'\u25cf LIVE':label}</div>
+                <div style={{fontSize:8, letterSpacing:3, color:type==='live'?'var(--green)':'#555', marginBottom:4}}>{type==='live'?'● LIVE':label}</div>
                 <div style={{fontSize:13, letterSpacing:1}}>{g.visitor_team.abbreviation} @ {g.home_team.abbreviation}</div>
-                {(g.home_team_score > 0 || g.visitor_team_score > 0) && <div style={{fontSize:11, color:'var(--green)', letterSpacing:2, marginTop:2}}>{g.visitor_team_score} \u2014 {g.home_team_score}</div>}
+                {(g.home_team_score > 0 || g.visitor_team_score > 0) && <div style={{fontSize:11, color:'var(--green)', letterSpacing:2, marginTop:2}}>{g.visitor_team_score} — {g.home_team_score}</div>}
               </div>
             );
           })}
@@ -1218,7 +1207,7 @@ function CoachMode() {
               value={situation} onChange={e=>setSituation(e.target.value)}/>
             <button onClick={run} disabled={loading||!myTeam}
               style={{ width:'100%', padding:'14px', fontSize:11, letterSpacing:4, fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif', fontWeight:700, textTransform:'uppercase', cursor:'pointer', border:'none', transition:'all 0.1s', background:loading?'#222':'var(--green)', color:loading?'#444':'var(--black)' }}>
-              {loading ? 'Thinking...' : mode==='adjust' ? 'Get Adjustments \u2192' : 'Draw Play \u2192'}
+              {loading ? 'Thinking...' : mode==='adjust' ? 'Get Adjustments →' : 'Draw Play →'}
             </button>
           </div>
         )}
@@ -1241,7 +1230,7 @@ function CoachMode() {
         {!loading && result && (
           <div style={{padding:'40px 48px'}}>
             <div style={{display:'flex', gap:12, alignItems:'center', marginBottom:28}}>
-              <div style={{fontSize:9, letterSpacing:4, color:'var(--green)'}}>{result.mode==='timeout'?'\u2299 PLAY DRAWN':'\u2299 ADJUSTMENTS READY'}</div>
+              <div style={{fontSize:9, letterSpacing:4, color:'var(--green)'}}>{result.mode==='timeout'?'⊙ PLAY DRAWN':'⊙ ADJUSTMENTS READY'}</div>
               <div style={{fontSize:9, letterSpacing:2, color:'#333'}}>{result.my_team}</div>
             </div>
             <div style={{fontSize:15, lineHeight:2.2, letterSpacing:.5, color:'var(--white)', whiteSpace:'pre-wrap', fontWeight:400, textTransform:'none'}}>
@@ -1254,7 +1243,7 @@ function CoachMode() {
         {selectedGame && boxScore && boxScore.total_players > 0 && (
           <div style={{borderBottom:'1px solid var(--border)'}}>
             <div style={{padding:'14px 20px', fontSize:8, letterSpacing:4, color:'#444', borderBottom:'1px solid var(--border)'}}>
-              Live Box \u2014 {selectedGame.visitor_team.abbreviation} @ {selectedGame.home_team.abbreviation}
+              Live Box — {selectedGame.visitor_team.abbreviation} @ {selectedGame.home_team.abbreviation}
             </div>
             <div style={{padding:'0 16px 16px'}}>
               {['away_players','home_players'].map(key => {
