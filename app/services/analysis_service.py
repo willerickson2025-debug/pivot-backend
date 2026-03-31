@@ -245,6 +245,105 @@ def _format_games_for_prompt(games: list[Game]) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Player Resolution
+# ---------------------------------------------------------------------------
+
+def _name_match_score(player: Any, query: str) -> int:
+    """
+    Score how well a player matches a query string. Higher = better match.
+
+    Scoring tiers (mutually exclusive, highest wins):
+      100 — full name exact match (case-insensitive)
+       80 — full name contained in query or query contained in full name
+       60 — both first and last name tokens appear in the query
+       40 — last name exact match
+       20 — last name contained in query
+        0 — anything else
+
+    Parameters
+    ----------
+    player:
+        Player domain object with ``first_name`` and ``last_name`` attributes.
+    query:
+        The original search string entered by the caller.
+
+    Returns
+    -------
+    int
+        Match quality score. Higher is better.
+    """
+    q = query.lower().strip()
+    first = (player.first_name or "").lower().strip()
+    last = (player.last_name or "").lower().strip()
+    full = f"{first} {last}".strip()
+
+    if full == q:
+        return 100
+    if full in q or q in full:
+        return 80
+    if first and last and first in q and last in q:
+        return 60
+    if last and last == q:
+        return 40
+    if last and last in q:
+        return 20
+    return 0
+
+
+def _resolve_best_player(players: list[Any], query: str) -> Any:
+    """
+    Return the player from *players* whose name best matches *query*.
+
+    Scores every candidate with ``_name_match_score`` and returns the highest
+    scorer. Falls back to ``players[0]`` only when nothing scores above zero,
+    logging a warning so the mismatch is visible. This prevents the class of
+    bug where e.g. "LeBron James" resolves to "James Ennis III" because the
+    API returns results sorted by first name alphabetically.
+
+    Parameters
+    ----------
+    players:
+        Non-empty list of Player objects returned by the search endpoint.
+    query:
+        The original search string entered by the caller.
+
+    Returns
+    -------
+    Any
+        Best-matching Player object.
+
+    Raises
+    ------
+    ValueError
+        If ``players`` is empty.
+    """
+    if not players:
+        raise ValueError(f"No player found matching '{query}'")
+
+    scored = sorted(players, key=lambda p: _name_match_score(p, query), reverse=True)
+    best = scored[0]
+    best_score = _name_match_score(best, query)
+
+    logger.debug(
+        "Player resolution scores | query=%r top=%s %s score=%d",
+        query,
+        best.first_name,
+        best.last_name,
+        best_score,
+    )
+
+    if best_score == 0:
+        logger.warning(
+            "No strong name match for %r; defaulting to first result: %s %s",
+            query,
+            best.first_name,
+            best.last_name,
+        )
+
+    return best
+
+
+# ---------------------------------------------------------------------------
 # Player Stat Aggregation
 # ---------------------------------------------------------------------------
 
@@ -253,15 +352,16 @@ async def _build_player_stat_block(player_name: str, season: int) -> tuple[Any, 
     Look up a player, fetch their game logs and official averages, and return
     both the ``Player`` object and a dict of computed stat aggregates.
 
-    This helper is shared by ``analyze_player`` and ``analyze_player_section``
-    to eliminate the stat-aggregation code duplication that existed in the
-    original implementation.
+    Search strategy (in order):
+      1. Full name search → score all results → pick best match
+      2. If full name returns nothing and name has multiple tokens,
+         retry with last token only → score → pick best match
+      3. Raise ValueError if still nothing
 
     Parameters
     ----------
     player_name:
-        Full or partial player name. We search by the full name string and fall
-        back to the last token only if no results are returned.
+        Full or partial player name.
     season:
         NBA season start year.
 
@@ -281,10 +381,6 @@ async def _build_player_stat_block(player_name: str, season: int) -> tuple[Any, 
     """
     clean_name = player_name.strip()
 
-    # Try the full name first; fall back to the last token (surname) only if
-    # the full-name search returns nothing. The original code always used only
-    # the last token which caused incorrect matches for players with short,
-    # common surnames (e.g. "Grant" matching the wrong player).
     players = await nba_service.search_players(clean_name)
 
     if not players and " " in clean_name:
@@ -299,7 +395,11 @@ async def _build_player_stat_block(player_name: str, season: int) -> tuple[Any, 
     if not players:
         raise ValueError(f"No player found matching '{player_name}'")
 
-    player = players[0]
+    # Score all candidates and pick the best match instead of blindly taking
+    # players[0]. The API can return results sorted in ways that put the wrong
+    # player first (e.g. "LeBron James" → "James Ennis III").
+    player = _resolve_best_player(players, clean_name)
+
     logger.info(
         "Player resolved | query=%r matched=%s %s id=%d",
         player_name,
@@ -571,9 +671,7 @@ async def analyze_player_section(
     if section not in SECTION_PROMPTS:
         valid_sections = ", ".join(sorted(SECTION_PROMPTS.keys()))
         return {
-            "error": (
-                f"Unknown section '{section}'. Valid sections: {valid_sections}"
-            )
+            "error": f"Unknown section '{section}'. Valid sections: {valid_sections}"
         }
 
     try:
